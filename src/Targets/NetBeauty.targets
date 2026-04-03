@@ -9,8 +9,8 @@
 		<BeautySharedRuntimeMode>False</BeautySharedRuntimeMode>
 
 		<!-- Directory for dependencies; default is 'libraries'. Use quotes if the path contains spaces. -->
-		<BeautyLibsDir Condition="$(BeautySharedRuntimeMode) == 'True'">../libraries</BeautyLibsDir>
-		<BeautyLibsDir Condition="$(BeautySharedRuntimeMode) != 'True'">./libraries</BeautyLibsDir>
+		<BeautyLibsDir Condition="$(BeautySharedRuntimeMode) == 'True'">../Libraries</BeautyLibsDir>
+		<BeautyLibsDir Condition="$(BeautySharedRuntimeMode) != 'True'">./Libraries</BeautyLibsDir>
 
 		<!-- DLLs you want to exclude from being moved (e.g., critical or custom files). -->
 		<BeautyExcludes>SDL2*;libSDL2*;sdl2*;soft_oal*;openal*;libopenal*;</BeautyExcludes>
