@@ -47,7 +47,7 @@ namespace StarMage.Core.Handlers
             actorManager.Clear(x => x.Type is ActorType.Player);
 
             IsGameOver = false;
-            CurrentLevelIndex = new();
+            CurrentLevelIndex = new(16);
             TotalRemainingSeconds = GetLevelTime();
             BigCrystalCollected = 0;
             ShouldCameraFollowPlayer = true;

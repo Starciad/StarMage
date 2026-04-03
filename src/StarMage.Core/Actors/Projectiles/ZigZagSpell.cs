@@ -15,6 +15,9 @@ namespace StarMage.Core.Actors.Projectiles
         private Vector2 direction;
         private Point previousPosition;
 
+        private byte durability;
+
+        private const byte DEFAULT_DURABILITY = 8;
         private const float DEFAULT_SPEED = 250.0f;
 
         internal ZigZagSpell(ActorIndex index, ActorType type, ActorTeam team, ActorManager actorManager, TileMap tileMap) : base(index, type, team, actorManager, tileMap)
@@ -26,10 +29,19 @@ namespace StarMage.Core.Actors.Projectiles
         {
             this.direction = Vector2.Zero;
             this.previousPosition = Point.Zero;
+            this.durability = DEFAULT_DURABILITY;
         }
 
         internal override void OnTileCollision(bool isHorizontalAxis)
         {
+            this.durability--;
+
+            if (this.durability == 0)
+            {
+                this.ActorManager.Destroy(this);
+                return;
+            }
+
             if (isHorizontalAxis)
             {
                 this.direction.X *= -1.0f;

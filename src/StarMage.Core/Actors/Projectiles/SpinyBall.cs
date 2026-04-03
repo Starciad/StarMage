@@ -20,7 +20,7 @@ namespace StarMage.Core.Actors.Projectiles
         private byte durability;
         private bool isFirstFrame;
 
-        private const byte DEFAULT_DURABILITY = 6;
+        private const byte DEFAULT_DURABILITY = 3;
         private const byte ANIMATION_FRAME_DELAY = 5;
         private const float GRAVITY = 650.0f;
         private const float MAX_FALL_SPEED = 500.0f;
