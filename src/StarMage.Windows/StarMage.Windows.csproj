@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../Targets/Metadata.targets" />
+	<Import Project="../Targets/NetBeauty.targets" />
+	<Import Project="../Targets/Restore.targets" />
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows7.0</TargetFramework>
+		<RuntimeFrameworkVersion>8.0.0</RuntimeFrameworkVersion>
+		<RollForward>Major</RollForward>
+		<LangVersion>latest</LangVersion>
+		<SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<SelfContained>true</SelfContained>
+		<PublishReadyToRun>false</PublishReadyToRun>
+		<TieredCompilation>false</TieredCompilation>
+		<PublishTrimmed>false</PublishTrimmed>
+		<UseWindowsForms>true</UseWindowsForms>
+		<UseWPF>false</UseWPF>
+		<PublishSelfContained>true</PublishSelfContained>
+		<PublishSingleFile>false</PublishSingleFile>
+		<PublishAot>false</PublishAot>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<AssemblyName>StarMage</AssemblyName>
+		<RootNamespace>StarMage</RootNamespace>
+		<Nullable>disable</Nullable>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<PlatformTarget>x64</PlatformTarget>
+		<MonoGamePlatform>Windows</MonoGamePlatform>
+		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>embedded</DebugType>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<Deterministic>true</Deterministic>
+		<UseSharedCompilation>false</UseSharedCompilation>
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<ApplicationIcon>../StarMage.Core/Content/Icon.ico</ApplicationIcon>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<MonoGameContentReference Include="..\StarMage.Core\Content\StarMage.mgcb">
+			<Link>Content\StarMage.mgcb</Link>
+		</MonoGameContentReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.4" />
+		<PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.4" />
+		<PackageReference Include="nulastudio.NetBeauty" Version="2.1.5.0" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\StarMage.Core\StarMage.Core.csproj">
+			<ReferenceOutputAssembly></ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+</Project>

@@ -1,11 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../Targets/Metadata.targets" />
+	<Import Project="../Targets/Restore.targets" />
+	
 	<PropertyGroup>
+		<OutputType>Library</OutputType>
 		<TargetFramework>net8.0</TargetFramework>
-		<ImplicitUsings>disable</ImplicitUsings>
-		<Nullable>disable</Nullable>
+		<RuntimeFrameworkVersion>8.0.0</RuntimeFrameworkVersion>
+		<RollForward>Major</RollForward>
+		<LangVersion>latest</LangVersion>
 		<Platform>AnyCPU</Platform>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<AssemblyName>StarMage.Core</AssemblyName>
+		<RootNamespace>StarMage.Core</RootNamespace>
+		<Nullable>disable</Nullable>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>embedded</DebugType>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<Deterministic>true</Deterministic>
+		<UseSharedCompilation>false</UseSharedCompilation>
+	</PropertyGroup>
+	
 	<ItemGroup>
 		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4">
 			<PrivateAssets>all</PrivateAssets>
