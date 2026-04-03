@@ -8,14 +8,7 @@
 		<Product>Star Mage</Product>
 		<Description>A small 2D side-scrolling shoot 'em up game with procedurally generated levels.</Description>
 		<Copyright>Copyright © Davi "Starciad" Fernandes. All rights Reserved.</Copyright>
-		<PackageProjectUrl>https://github.com/Starciad/StardustSandbox.git</PackageProjectUrl>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/Starciad/StardustSandbox.git</RepositoryUrl>
-		<PackageReleaseNotes>https://github.com/Starciad/StardustSandbox/releases</PackageReleaseNotes>
-		<RepositoryType>git</RepositoryType>
 		<NeutralLanguage>en-US</NeutralLanguage>
-		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-		<RepositoryBranch>main</RepositoryBranch>
 	</PropertyGroup>
 
     <!-- VERSIONING -->
