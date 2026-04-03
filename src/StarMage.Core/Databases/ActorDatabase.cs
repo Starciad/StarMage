@@ -87,6 +87,15 @@ namespace StarMage.Core.Databases
 
                 #region ENEMIES
 
+                new ActorDescriptor<Batter>(ActorIndex.Batter, () => new(ActorIndex.Batter, ActorType.Enemy, ActorTeam.Bad, actorManager, tileMap)
+                {
+                    CanDraw = true,
+                    CanUpdate = true,
+                    HasTileCollision = true,
+                    Width = 16,
+                    Height = 16,
+                }),
+
                 new ActorDescriptor<FloatingBall>(ActorIndex.FloatingBall, () => new(ActorIndex.FloatingBall, ActorType.Enemy, ActorTeam.Bad, actorManager, tileMap)
                 {
                     CanDraw = true,

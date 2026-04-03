@@ -27,10 +27,9 @@ namespace StarMage.Core.Actors.Enemies
         private byte health;
         private byte animationFrameCounter;
         private byte hitAnimationCounter;
+        private int currentAnimationFrameIndex;
 
         private byte spitCooldownCounter;
-
-        private Rectangle currentAnimationFrame;
 
         private static readonly Rectangle[] animationFrames =
         [
@@ -84,7 +83,7 @@ namespace StarMage.Core.Actors.Enemies
             this.animationFrameCounter = 0;
             this.hitAnimationCounter = 0;
 
-            this.currentAnimationFrame = animationFrames[0];
+            this.currentAnimationFrameIndex = 0;
         }
 
         internal override void OnCreated()
@@ -149,13 +148,15 @@ namespace StarMage.Core.Actors.Enemies
 
         private void UpdateDamageAnimation()
         {
-            if (this.isShowingDamage)
+            if (!this.isShowingDamage)
             {
-                if (++this.hitAnimationCounter >= HIT_ANIMATION_DURATION)
-                {
-                    this.hitAnimationCounter = 0;
-                    this.isShowingDamage = false;
-                }
+                return;
+            }
+
+            if (++this.hitAnimationCounter >= HIT_ANIMATION_DURATION)
+            {
+                this.hitAnimationCounter = 0;
+                this.isShowingDamage = false;
             }
         }
 
@@ -172,7 +173,7 @@ namespace StarMage.Core.Actors.Enemies
             int baseFrameIndex = ((int)this.gripDirection - 1) * FRAMES_PER_DIRECTION;
             int frameOffset = this.isShowingDamage ? 2 : this.isFirstFrame ? 0 : 1;
 
-            this.currentAnimationFrame = animationFrames[baseFrameIndex + frameOffset];
+            this.currentAnimationFrameIndex = baseFrameIndex + frameOffset;
         }
 
         private void UpdateAttackBehaviour()
@@ -222,7 +223,7 @@ namespace StarMage.Core.Actors.Enemies
 
         internal override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(AssetDatabase.GetTexture(TextureIndex.Actors), new(this.PositionX, this.PositionY), this.currentAnimationFrame, Color.White, 0.0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.0f);
+            spriteBatch.Draw(AssetDatabase.GetTexture(TextureIndex.Actors), new(this.PositionX, this.PositionY), animationFrames[currentAnimationFrameIndex], Color.White, 0.0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.0f);
         }
     }
 }

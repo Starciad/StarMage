@@ -405,12 +405,16 @@ namespace StarMage.Core
 
         protected override void OnActivated(object sender, EventArgs args)
         {
+            MediaPlayer.Resume();
+
             this.isActivated = true;
             base.OnActivated(sender, args);
         }
 
         protected override void OnDeactivated(object sender, EventArgs args)
         {
+            MediaPlayer.Pause();
+
             this.isActivated = false;
             base.OnDeactivated(sender, args);
         }

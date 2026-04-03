@@ -21,6 +21,7 @@
 
         #region ENEMIES
 
+        Batter,
         FloatingBall,
         HappyMask,
         Slime,

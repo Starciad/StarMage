@@ -21,10 +21,10 @@ namespace StarMage.Core.Actors.Enemies
         private byte animationFrameCounter;
         private byte hitAnimationCounter;
 
+        private int currentAnimationFrameIndex;
+
         private float velocityX;
         private float velocityY;
-
-        private Rectangle currentAnimationFrame;
 
         private static readonly Rectangle[] animationFrames =
         [
@@ -75,7 +75,7 @@ namespace StarMage.Core.Actors.Enemies
             this.velocityX = 0.0f;
             this.velocityY = 0.0f;
 
-            this.currentAnimationFrame = animationFrames[0];
+            this.currentAnimationFrameIndex = 0;
         }
 
         internal override void OnCreated()
@@ -155,7 +155,7 @@ namespace StarMage.Core.Actors.Enemies
             int baseFrameIndex = ((int)this.gripDirection - 1) * FRAMES_PER_DIRECTION;
             int frameOffset = this.isShowingDamage ? 2 : this.isFirstFrame ? 0 : 1;
 
-            this.currentAnimationFrame = animationFrames[baseFrameIndex + frameOffset];
+            this.currentAnimationFrameIndex = baseFrameIndex + frameOffset;
         }
 
         private void UpdateMovementDirection()
@@ -232,7 +232,7 @@ namespace StarMage.Core.Actors.Enemies
 
         internal override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(AssetDatabase.GetTexture(TextureIndex.Actors), new(this.PositionX, this.PositionY), this.currentAnimationFrame, Color.White, 0.0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.0f);
+            spriteBatch.Draw(AssetDatabase.GetTexture(TextureIndex.Actors), new(this.PositionX, this.PositionY), animationFrames[this.currentAnimationFrameIndex], Color.White, 0.0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.0f);
         }
     }
 }

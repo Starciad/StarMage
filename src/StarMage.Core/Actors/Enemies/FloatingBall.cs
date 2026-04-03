@@ -21,8 +21,11 @@ namespace StarMage.Core.Actors.Enemies
         private float noiseDelayCounter;
         private bool isShowingDamage;
 
-        private static readonly Rectangle defaultSpriteRectangle = new(16, 0, 16, 16);
-        private static readonly Rectangle damagedSpriteRectangle = new(32, 0, 16, 16);
+        private static readonly Rectangle[] spriteRectangles =
+        [
+            new(16, 0, 16, 16), // Normal
+            new(32, 0, 16, 16) // Hit
+        ];
 
         private const byte DEFAULT_HEALTH = 5;
         private const byte HIT_ANIMATION_DURATION = 8;
@@ -194,7 +197,7 @@ namespace StarMage.Core.Actors.Enemies
 
         internal override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(AssetDatabase.GetTexture(TextureIndex.Actors), new Vector2(this.PositionX, this.PositionY), this.isShowingDamage ? damagedSpriteRectangle : defaultSpriteRectangle, Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0f);
+            spriteBatch.Draw(AssetDatabase.GetTexture(TextureIndex.Actors), new Vector2(this.PositionX, this.PositionY), this.isShowingDamage ? spriteRectangles[1] : spriteRectangles[0], Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0f);
         }
     }
 }

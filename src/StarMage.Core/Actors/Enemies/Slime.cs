@@ -21,15 +21,15 @@ namespace StarMage.Core.Actors.Enemies
         private byte animationFrameCounter;
         private byte hitAnimationCounter;
 
+        private int currentAnimationFrameIndex;
+
         private float velocityX;
         private float velocityY;
 
         private bool isGrounded;
         private bool isShowingDamage;
 
-        private Rectangle currentSpriteRectangle;
-
-        private static readonly Rectangle[] behaviourAnimationFrames =
+        private static readonly Rectangle[] animationFrames =
         [
             #region RIGHT
 
@@ -52,8 +52,10 @@ namespace StarMage.Core.Actors.Enemies
             new(80, 64, 16, 16),
 
             #endregion
+
+            // Damaged
+            new(80, 0, 16, 16),
         ];
-        private static readonly Rectangle damagedSpriteRectangle = new(80, 0, 16, 16);
 
         private const byte ANIMATION_FRAME_DELAY = 4;
         private const float GRAVITY = 650.0f;
@@ -80,7 +82,7 @@ namespace StarMage.Core.Actors.Enemies
             this.velocityY = 0.0f;
             this.isGrounded = false;
             this.isShowingDamage = false;
-            this.currentSpriteRectangle = behaviourAnimationFrames[this.direction == 1 ? 0 : 3];
+            this.currentAnimationFrameIndex = this.direction == 1 ? 0 : 3;
         }
 
         internal override void OnActorCollision(Actor otherActor)
@@ -179,16 +181,16 @@ namespace StarMage.Core.Actors.Enemies
 
             if (this.isShowingDamage)
             {
-                this.currentSpriteRectangle = damagedSpriteRectangle;
+                this.currentAnimationFrameIndex = 6;
             }
             else if (!this.isGrounded)
             {
-                this.currentSpriteRectangle = behaviourAnimationFrames[this.direction == 1 ? 2 : 5];
+                this.currentAnimationFrameIndex = this.direction == 1 ? 2 : 5;
             }
             else
             {
-                int idleFrameIndex = (this.direction == 1 ? 0 : 3) + (this.currentSpriteRectangle == behaviourAnimationFrames[this.direction == 1 ? 0 : 3] ? 1 : 0);
-                this.currentSpriteRectangle = behaviourAnimationFrames[idleFrameIndex];
+                int idleFrameIndex = (this.direction == 1 ? 0 : 3) + (this.currentAnimationFrameIndex == (this.direction == 1 ? 0 : 3) ? 1 : 0);
+                this.currentAnimationFrameIndex = idleFrameIndex;
             }
         }
 
@@ -215,7 +217,7 @@ namespace StarMage.Core.Actors.Enemies
 
         internal override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(AssetDatabase.GetTexture(TextureIndex.Actors), new(this.PositionX, this.PositionY), this.currentSpriteRectangle, Color.White, 0.0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.0f);
+            spriteBatch.Draw(AssetDatabase.GetTexture(TextureIndex.Actors), new(this.PositionX, this.PositionY), animationFrames[this.currentAnimationFrameIndex], Color.White, 0.0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.0f);
         }
     }
 }

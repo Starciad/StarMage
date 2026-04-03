@@ -88,11 +88,12 @@ namespace StarMage.Core.Levels
 
         private static readonly EnemyProfile[] enemyProfiles =
         [
-            new EnemyProfile(ActorIndex.FloatingBall, SpawnLocations.Aerial, 32, () => GameHandler.CurrentLevelIndex >= 13),
-            new EnemyProfile(ActorIndex.HappyMask, SpawnLocations.Aerial, 64, () => GameHandler.CurrentLevelIndex >= 3),
-            new EnemyProfile(ActorIndex.Slime, SpawnLocations.Ground, 96, () => true),
-            new EnemyProfile(ActorIndex.Spino, SpawnLocations.Ground | SpawnLocations.LeftWall | SpawnLocations.RightWall | SpawnLocations.Ceiling, 64, () => GameHandler.CurrentLevelIndex >= 5),
-            new EnemyProfile(ActorIndex.Spitter, SpawnLocations.Ground | SpawnLocations.LeftWall | SpawnLocations.RightWall | SpawnLocations.Ceiling, 64, () =>  GameHandler.CurrentLevelIndex >= 9)
+            new EnemyProfile(ActorIndex.Batter, SpawnLocations.Aerial, 85, () => GameHandler.CurrentLevelIndex % 2 == 0),
+            new EnemyProfile(ActorIndex.FloatingBall, SpawnLocations.Aerial, 35, () => GameHandler.CurrentLevelIndex >= 13),
+            new EnemyProfile(ActorIndex.HappyMask, SpawnLocations.Aerial, 65, () => GameHandler.CurrentLevelIndex >= 3),
+            new EnemyProfile(ActorIndex.Slime, SpawnLocations.Ground, 95, () => true),
+            new EnemyProfile(ActorIndex.Spino, SpawnLocations.Ground | SpawnLocations.LeftWall | SpawnLocations.RightWall | SpawnLocations.Ceiling, 65, () => GameHandler.CurrentLevelIndex >= 5),
+            new EnemyProfile(ActorIndex.Spitter, SpawnLocations.Ground | SpawnLocations.LeftWall | SpawnLocations.RightWall | SpawnLocations.Ceiling, 65, () =>  GameHandler.CurrentLevelIndex >= 9)
         ];
 
         #region HELPER METHODS

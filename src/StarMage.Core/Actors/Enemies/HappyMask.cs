@@ -16,8 +16,11 @@ namespace StarMage.Core.Actors.Enemies
         private bool isShowingDamage;
         private Vector2 direction;
 
-        private static readonly Rectangle defaultSpriteRectangle = new(48, 0, 16, 16);
-        private static readonly Rectangle damagedSpriteRectangle = new(64, 0, 16, 16);
+        private static readonly Rectangle[] spriteRectangles =
+        [
+            new(48, 0, 16, 16), // Normal
+            new(64, 0, 16, 16) // Hit
+        ];
 
         private const byte DEFAULT_HEALTH = 4;
         private const byte HIT_ANIMATION_DURATION = 8;
@@ -33,11 +36,6 @@ namespace StarMage.Core.Actors.Enemies
             this.health = DEFAULT_HEALTH;
             this.hitAnimationCounter = 0;
             this.isShowingDamage = false;
-            this.direction = Vector2.Zero;
-        }
-
-        internal override void OnCreated()
-        {
             this.direction = new(
                 Randomness.Random.GetBool() ? 1.0f : -1.0f,
                 Randomness.Random.GetBool() ? 1.0f : -1.0f
@@ -92,26 +90,33 @@ namespace StarMage.Core.Actors.Enemies
             ActorHelpers.CreateEnemyDeathResidues(this.ActorManager, this.Position, this.Size);
         }
 
+        private void UpdateDamageAnimation()
+        {
+            if (!this.isShowingDamage)
+            {
+                return;
+            }
+
+            if ((++this.hitAnimationCounter) >= HIT_ANIMATION_DURATION)
+            {
+                this.hitAnimationCounter = 0;
+                this.isShowingDamage = false;
+            }
+        }
+
         internal override void Update(GameTime gameTime)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            UpdateDamageAnimation();
+
             MoveHorizontally(this.direction.X * SPEED * deltaTime);
             MoveVertically(this.direction.Y * SPEED * deltaTime);
-
-            if (this.isShowingDamage)
-            {
-                if (++this.hitAnimationCounter >= HIT_ANIMATION_DURATION)
-                {
-                    this.hitAnimationCounter = 0;
-                    this.isShowingDamage = false;
-                }
-            }
         }
 
         internal override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(AssetDatabase.GetTexture(TextureIndex.Actors), new Vector2(this.PositionX, this.PositionY), this.isShowingDamage ? damagedSpriteRectangle : defaultSpriteRectangle, Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0f);
+            spriteBatch.Draw(AssetDatabase.GetTexture(TextureIndex.Actors), new Vector2(this.PositionX, this.PositionY), this.isShowingDamage ? spriteRectangles[1] : spriteRectangles[0], Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0f);
         }
     }
 }
