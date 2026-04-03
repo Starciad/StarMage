@@ -13,6 +13,7 @@
         PlayerHit,
         PlayerJump,
         PlayerShooting,
+        ShotDestroyed,
         SpitterProjectile,
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using StarMage.Core.Audio;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Managers;
@@ -36,6 +37,7 @@ namespace StarMage.Core.Actors.Projectiles
         {
             if (isHorizontalAxis)
             {
+                SoundEffectPlayer.Play(SoundEffectIndex.ShotDestroyed);
                 this.ActorManager.Destroy(this);
             }
             else

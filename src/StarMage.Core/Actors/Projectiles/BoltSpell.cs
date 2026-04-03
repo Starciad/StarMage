@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using StarMage.Core.Audio;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Managers;
@@ -54,16 +55,9 @@ namespace StarMage.Core.Actors.Projectiles
             this.animationCurrentFrameIndex = 0;
         }
 
-        internal override void OnDestroyed()
-        {
-            if (this.ActorManager.TryCreate(ActorIndex.GoodExplosion, out Actor explosionActor))
-            {
-                explosionActor.Position = this.Position;
-            }
-        }
-
         internal override void OnTileCollision(bool isHorizontalAxis)
         {
+            SoundEffectPlayer.Play(SoundEffectIndex.ShotDestroyed);
             this.ActorManager.Destroy(this);
         }
 
@@ -75,6 +69,14 @@ namespace StarMage.Core.Actors.Projectiles
         internal override void OnOutsideCameraBounds()
         {
             this.ActorManager.Destroy(this);
+        }
+
+        internal override void OnDestroyed()
+        {
+            if (this.ActorManager.TryCreate(ActorIndex.GoodExplosion, out Actor explosionActor))
+            {
+                explosionActor.Position = this.Position;
+            }
         }
 
         private void UpdateAnimation()

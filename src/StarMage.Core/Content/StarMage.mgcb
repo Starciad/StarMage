@@ -115,6 +115,12 @@
 /processorParam:Quality=Best
 /build:SoundEffects/Player_Shooting.wav
 
+#begin SoundEffects/Shot_Destroyed.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Shot_Destroyed.wav
+
 #begin SoundEffects/Spitter_Projectile.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

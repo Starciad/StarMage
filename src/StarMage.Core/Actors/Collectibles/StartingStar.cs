@@ -42,7 +42,6 @@ namespace StarMage.Core.Actors.Collectibles
 
         internal override void OnCreated()
         {
-            SoundEffectPlayer.Play(SoundEffectIndex.CollectedStar);
             this.magePlayer = (MagePlayer)this.ActorManager.GetActor(ActorIndex.MagePlayer);
             this.magePlayer.Position = this.Position;
             CameraHandler.Position = Point.Zero;
@@ -50,6 +49,7 @@ namespace StarMage.Core.Actors.Collectibles
 
         internal override void OnTileCollision(bool isHorizontalAxis)
         {
+            SoundEffectPlayer.Play(SoundEffectIndex.CollectedStar);
             this.ActorManager.Destroy(this);
             this.magePlayer.Position = this.Position;
             this.magePlayer.PrepareForLevel();

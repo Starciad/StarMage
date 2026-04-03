@@ -43,6 +43,7 @@ namespace StarMage.Core.Databases
                 contentManager.Load<SoundEffect>("SoundEffects/Player_Hit"),
                 contentManager.Load<SoundEffect>("SoundEffects/Player_Jump"),
                 contentManager.Load<SoundEffect>("SoundEffects/Player_Shooting"),
+                contentManager.Load<SoundEffect>("SoundEffects/Shot_Destroyed"),
                 contentManager.Load<SoundEffect>("SoundEffects/Spitter_Projectile"),
             ];
 
