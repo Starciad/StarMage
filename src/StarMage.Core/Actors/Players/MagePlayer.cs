@@ -322,8 +322,6 @@ namespace StarMage.Core.Actors.Players
             this.coyoteTimeCounter = 0.0f;
 
             this.velocityY = force * -1;
-
-            SoundEffectPlayer.SetSoundEffect(AssetDatabase.GetSoundEffect(SoundEffectIndex.Jump));
         }
 
         private void HandleJumping()

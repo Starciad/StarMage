@@ -19,6 +19,36 @@
 /processorParam:DebugMode=Auto
 /build:Effects/PaletteIndexed.fx
 
+#begin Songs/Boss_Battle.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Songs/Boss_Battle.wav
+
+#begin Songs/World_01.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Songs/World_01.wav
+
+#begin Songs/World_02.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Songs/World_02.wav
+
+#begin Songs/World_03.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Songs/World_03.wav
+
+#begin Songs/World_04.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Songs/World_04.wav
+
 #begin Textures/Actors.png
 /importer:TextureImporter
 /processor:TextureProcessor

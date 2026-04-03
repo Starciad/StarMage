@@ -23,7 +23,11 @@ namespace StarMage.Core.Databases
 
             songs =
             [
-
+                contentManager.Load<Song>("Songs/Boss_Battle"),
+                contentManager.Load<Song>("Songs/World_01"),
+                contentManager.Load<Song>("Songs/World_02"),
+                contentManager.Load<Song>("Songs/World_03"),
+                contentManager.Load<Song>("Songs/World_04"),
             ];
 
             soundEffects =

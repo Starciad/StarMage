@@ -29,6 +29,7 @@ namespace StarMage.Core.Actors.Bosses
         private Vector2 movementDirection;
 
         private int health;
+        private float speed;
 
         private byte attackFrameCounter;
 
@@ -131,14 +132,33 @@ namespace StarMage.Core.Actors.Bosses
         public override void Reset()
         {
             // Defining the boss's challenge based on the current world
-            this.health = (GameHandler.CurrentLevelIndex.World % 4) switch
+            switch (GameHandler.CurrentLevelIndex.World)
             {
-                0 => (int)(DEFAULT_HEALTH * 0.75f),// 25% less health in World 1
-                1 => (int)(DEFAULT_HEALTH * 1.25f),// 25% more health in World 2
-                2 => (int)(DEFAULT_HEALTH * 1.5f),// 50% more health in World 3
-                3 => (int)(DEFAULT_HEALTH * 2.0f),// 100% more health in World 4
-                _ => DEFAULT_HEALTH,
-            };
+                case 1:
+                    this.health = (int)(DEFAULT_HEALTH * 0.75f); // 25% less health in World 1
+                    this.speed = DEFAULT_SPEED * 0.75f; // 25% slower speed in World 1
+                    break;
+
+                case 2:
+                    this.health = (int)(DEFAULT_HEALTH * 1.25f); // 25% more health in World 2
+                    this.speed = DEFAULT_SPEED * 1.25f; // 25% faster speed in World 2
+                    break;
+
+                case 3:
+                    this.health = (int)(DEFAULT_HEALTH * 1.5f); // 50% more health in World 3
+                    this.speed = DEFAULT_SPEED * 1.5f; // 50% faster speed in World 3
+                    break;
+
+                case 4:
+                    this.health = (int)(DEFAULT_HEALTH * 2.0f); // 100% more health in World 4
+                    this.speed = DEFAULT_SPEED * 2.0f; // 100% faster speed in World 4
+                    break;
+
+                default:
+                    this.health = DEFAULT_HEALTH; // Default health for any other world (shouldn't happen)
+                    this.speed = DEFAULT_SPEED; // Default speed for any other world (shouldn't happen)
+                    break;
+            }
 
             // The boss starts facing to the right and moving diagonally downwards.
             this.facingDirection = 0;
@@ -357,8 +377,8 @@ namespace StarMage.Core.Actors.Bosses
             UpdateMovement();
             UpdateAttack();
 
-            MoveHorizontally(this.movementDirection.X * DEFAULT_SPEED * deltaTime);
-            MoveVertically(this.movementDirection.Y * DEFAULT_SPEED * deltaTime);
+            MoveHorizontally(this.movementDirection.X * this.speed * deltaTime);
+            MoveVertically(this.movementDirection.Y * this.speed * deltaTime);
         }
 
         private Rectangle GetHeadSpriteRectangle()

@@ -18,5 +18,10 @@ namespace StarMage.Core.Audio
             MediaPlayer.Stop();
             MediaPlayer.Play(CurrentSong);
         }
+
+        internal static void Stop()
+        {
+            MediaPlayer.Stop();
+        }
     }
 }

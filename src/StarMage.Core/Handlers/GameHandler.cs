@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 
 using StarMage.Core.Actors.Players;
+using StarMage.Core.Audio;
 using StarMage.Core.Enums;
 using StarMage.Core.Levels;
 using StarMage.Core.Managers;
@@ -60,6 +61,7 @@ namespace StarMage.Core.Handlers
             magePlayer.CanDraw = false;
             magePlayer.CanUpdate = false;
 
+            SongPlayer.Play(SongIndex.World1);
             levelProfile = LevelGenerator.Generate(actorManager, tileMap);
         }
 
@@ -82,6 +84,30 @@ namespace StarMage.Core.Handlers
             magePlayer.CanDraw = false;
 
             actorManager.Clear(x => x.Type is ActorType.Player);
+
+            switch (CurrentLevelIndex.World)
+            {
+                case 1:
+                    SongPlayer.Play(SongIndex.World1);
+                    break;
+
+                case 2:
+                    SongPlayer.Play(SongIndex.World2);
+                    break;
+
+                case 3:
+                    SongPlayer.Play(SongIndex.World3);
+                    break;
+
+                case 4:
+                    SongPlayer.Play(SongIndex.World4);
+                    break;
+
+                default:
+                    SongPlayer.Stop();
+                    break;
+            }
+
             levelProfile = LevelGenerator.Generate(actorManager, tileMap);
         }
 
@@ -135,6 +161,8 @@ namespace StarMage.Core.Handlers
                 IsFreezeActive = false;
 
                 actorManager.Clear(x => x.Type is ActorType.Player or ActorType.Boss);
+
+                SongPlayer.Play(SongIndex.BossBattle);
             }
 
             CameraHandler.Position = cameraPosition;
@@ -171,11 +199,13 @@ namespace StarMage.Core.Handlers
         {
             IsGameOver = true;
             gameOverDelay = GAME_OVER_SCREEN_DURATION;
+            SongPlayer.Stop();
         }
 
         internal static void GameCompleted()
         {
             IsGameOver = true;
+            SongPlayer.Stop();
         }
 
         internal static void Freeze()
@@ -197,11 +227,13 @@ namespace StarMage.Core.Handlers
             Freeze();
             bossAppeared = true;
             ShouldCameraFollowPlayer = false;
+            SongPlayer.Stop();
         }
 
         internal static void BossDefeated()
         {
             bossAppeared = false;
+            SongPlayer.Stop();
         }
     }
 }
