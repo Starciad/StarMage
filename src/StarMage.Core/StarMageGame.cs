@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using StarMage.Core.Actors;
 using StarMage.Core.Actors.Players;
+using StarMage.Core.Audio;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Handlers;
@@ -41,7 +42,6 @@ namespace StarMage.Core
         private const byte TITLE_ANIMATION_DELAY = 16;
         private const byte TITLE_SPRITES_LENGTH = 4;
 
-
         public StarMageGame()
         {
             _ = new GraphicsDeviceManager(this)
@@ -65,7 +65,7 @@ namespace StarMage.Core
             this.TargetElapsedTime = TimeSpan.FromSeconds(Constants.GAME_FPS);
             this.IsFixedTimeStep = true;
 
-            this.Window.Title = "Ecliphera";
+            this.Window.Title = "Star Mage";
             this.Window.AllowAltF4 = true;
             this.Window.AllowUserResizing = true;
             this.Window.IsBorderless = false;
@@ -80,6 +80,7 @@ namespace StarMage.Core
         {
             this.mainRenderTarget2D = new(this.GraphicsDevice, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents, false);
 
+            AudioEngine.Initialize();
             TileProperty.Initialize();
 
             base.Initialize();
@@ -105,6 +106,7 @@ namespace StarMage.Core
 
         protected override void BeginRun()
         {
+            // MusicPlayer.SetMelody(AssetDatabase.GetMelody(MelodyIndex.MainMenu));
             CreatePlayer();
             base.BeginRun();
         }
@@ -179,6 +181,9 @@ namespace StarMage.Core
                 return;
             }
 
+            AudioEngine.Update();
+            MusicPlayer.Update(gameTime);
+            SoundEffectPlayer.Update(gameTime);
             Input.Update();
 
             switch (GameHandler.CurrentScene)
@@ -194,7 +199,6 @@ namespace StarMage.Core
                 default:
                     break;
             }
-
 
             base.Update(gameTime);
         }
@@ -231,7 +235,7 @@ namespace StarMage.Core
             this.spriteBatch.Draw(AssetDatabase.GetTexture(TextureIndex.UI), new(0.0f, 128.0f), new Rectangle(0, 336, 256, 80), Color.White, 0.0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.0f);
 
             // Title
-            this.spriteBatch.Draw(AssetDatabase.GetTexture(TextureIndex.UI), new(0.0f, 16.0f), new Rectangle(0, 144 + (titleAnimationIndex * 44), 256, 48), Color.White, 0.0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.0f);
+            this.spriteBatch.Draw(AssetDatabase.GetTexture(TextureIndex.UI), new(0.0f, 16.0f), new Rectangle(0, 144 + (this.titleAnimationIndex * 44), 256, 48), Color.White, 0.0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.0f);
 
             // Copyright
             TextRenderer.DrawText(this.spriteBatch, "© 2026 STARCIAD", new(Constants.SCREEN_WIDTH - 4, 68), TextRenderSettings.RightAligned);
@@ -396,7 +400,7 @@ namespace StarMage.Core
         protected override void UnloadContent()
         {
             this.mainRenderTarget2D.Dispose();
-
+            AudioEngine.Dispose();
             base.UnloadContent();
         }
 

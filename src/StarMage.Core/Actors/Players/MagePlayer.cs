@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using StarMage.Core.Actors.Particles;
 using StarMage.Core.Actors.Projectiles;
+using StarMage.Core.Audio;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Handlers;
@@ -321,6 +322,8 @@ namespace StarMage.Core.Actors.Players
             this.coyoteTimeCounter = 0.0f;
 
             this.velocityY = force * -1;
+
+            SoundEffectPlayer.SetSoundEffect(AssetDatabase.GetSoundEffect(SoundEffectIndex.Jump));
         }
 
         private void HandleJumping()

@@ -57,7 +57,7 @@ namespace StarMage.Core.Actors.Enemies
         private const byte DEFAULT_ANIMATION_FRAME_DELAY = 12;
         private const byte DETECTION_ANIMATION_FRAME_DELAY = 4;
 
-        private const byte DEFAULT_HEALTH = 12;
+        private const byte DEFAULT_HEALTH = 7;
         private const byte DEFAULT_SPIT_COOLDOWN = 180;
         private const byte HIT_ANIMATION_DURATION = 8;
         private const byte FRAMES_PER_DIRECTION = 3;

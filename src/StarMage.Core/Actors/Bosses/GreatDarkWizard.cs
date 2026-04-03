@@ -113,7 +113,7 @@ namespace StarMage.Core.Actors.Bosses
             #endregion
         ];
 
-        private const byte DEFAULT_HEALTH = 80;
+        private const byte DEFAULT_HEALTH = 30;
         private const byte ATTACK_FRAME_DELAY = 160;
         private const byte HIT_ANIMATION_DURATION = 8;
         private const byte ATTACK_ANIMATION_DURATION = 4;
@@ -189,8 +189,8 @@ namespace StarMage.Core.Actors.Bosses
 
             if (this.ActorManager.TryCreate(ActorIndex.FinishingStar, out Actor finishingStarActor))
             {
-                finishingStarActor.PositionX = CameraHandler.Position.X + Constants.SCREEN_WIDTH / 2 - finishingStarActor.Width / 2;
-                finishingStarActor.PositionY = CameraHandler.Position.Y + Constants.SCREEN_HEIGHT / 2 - finishingStarActor.Height / 2;
+                finishingStarActor.PositionX = CameraHandler.Position.X + (Constants.SCREEN_WIDTH / 2) - (finishingStarActor.Width / 2);
+                finishingStarActor.PositionY = CameraHandler.Position.Y + (Constants.SCREEN_HEIGHT / 2) - (finishingStarActor.Height / 2);
             }
         }
 
@@ -231,7 +231,7 @@ namespace StarMage.Core.Actors.Bosses
             this.targetBodyPositionY = this.PositionY;
 
             // Hand
-            this.targetHandPositionX = this.PositionX - this.facingDirection * 18;
+            this.targetHandPositionX = this.PositionX - (this.facingDirection * 18);
             this.targetHandPositionY = this.PositionY - 8;
         }
 
@@ -289,10 +289,10 @@ namespace StarMage.Core.Actors.Bosses
 
         private void UpdateMovement()
         {
-            int minX = CameraHandler.Position.X + this.Width - this.Width / 2;
-            int minY = this.Height - this.Height / 2;
+            int minX = CameraHandler.Position.X + this.Width - (this.Width / 2);
+            int minY = this.Height - (this.Height / 2);
             int maxX = CameraHandler.Position.X + Constants.SCREEN_WIDTH - this.Width - Constants.TILE_SIZE;
-            int maxY = CameraHandler.Position.Y + Constants.SCREEN_HEIGHT - this.Height - Constants.TILE_SIZE * 4;
+            int maxY = CameraHandler.Position.Y + Constants.SCREEN_HEIGHT - this.Height - (Constants.TILE_SIZE * 4);
 
             if (this.PositionX < minX || this.PositionX >= maxX)
             {
@@ -326,7 +326,7 @@ namespace StarMage.Core.Actors.Bosses
                 if (this.ActorManager.TryCreate(ActorIndex.EvilStar, out Actor projectileActor))
                 {
                     // Spread the projectiles evenly within the angle offset
-                    float spreadAngle = -PROJECTILE_ANGLE_OFFSET + i * (PROJECTILE_ANGLE_OFFSET * 2 / (PROJECTILE_COUNT - 1));
+                    float spreadAngle = -PROJECTILE_ANGLE_OFFSET + (i * (PROJECTILE_ANGLE_OFFSET * 2 / (PROJECTILE_COUNT - 1)));
                     float finalAngle = baseAngle + MathHelper.ToRadians(spreadAngle);
 
                     Vector2 direction = new(MathF.Cos(finalAngle), MathF.Sin(finalAngle));
@@ -382,7 +382,7 @@ namespace StarMage.Core.Actors.Bosses
                 byte damageIndex = (byte)(this.isShowingDamage ? 3 : 0); // Normal attack sprites are at index 0-3, damaged attack sprites are at index 4-7
                 byte attackIndex = this.handAttackAnimationIndex; // Attack animation frames are at index 0-3 for normal and 4-7 for damaged
 
-                return handAttackSpriteRectangles[directionIndex * 3 + attackIndex + damageIndex];
+                return handAttackSpriteRectangles[(directionIndex * 3) + attackIndex + damageIndex];
             }
             else
             {

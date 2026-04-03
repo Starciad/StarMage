@@ -467,7 +467,7 @@ namespace StarMage.Core.Levels
             // of the available range for better visual balance
             if (crystalCount == 1)
             {
-                int middleIndex = startIndex + availableRangeSize / 2;
+                int middleIndex = startIndex + (availableRangeSize / 2);
 
                 if (actorManager.TryCreate(ActorIndex.BigCrystal, out Actor bigCrystal))
                 {
@@ -668,8 +668,8 @@ namespace StarMage.Core.Levels
 
         internal static LevelProfile Generate(ActorManager actorManager, TileMap tileMap)
         {
-            int horizontalChunkCount = int.Clamp(7 + GameHandler.CurrentLevelIndex / 2, 7, 32);
-            float spawnRate = 0.265f + GameHandler.CurrentLevelIndex * 0.01f;
+            int horizontalChunkCount = int.Clamp(7 + (GameHandler.CurrentLevelIndex / 2), 7, 32);
+            float spawnRate = 0.265f + (GameHandler.CurrentLevelIndex * 0.01f);
 
             InitializeLevel(actorManager, tileMap, horizontalChunkCount);
 
