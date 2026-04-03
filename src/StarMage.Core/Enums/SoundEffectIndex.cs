@@ -2,6 +2,6 @@
 {
     internal enum SoundEffectIndex : byte
     {
-        Jump = 0
+
     }
 }

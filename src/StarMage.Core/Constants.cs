@@ -27,6 +27,8 @@ namespace StarMage.Core
         internal const byte DEFAULT_BIG_CRYSTALS_PER_LEVEL = 3;
         internal const byte FINAL_LEVEL = 16;
 
+        internal const byte MAX_CONCURRENT_SOUNDS = 4;
+
         internal static readonly Point SCREEN_SIZE = new(SCREEN_WIDTH, SCREEN_HEIGHT);
 
         internal static readonly Color[] DEFAULT_COLOR_PALETTE =

@@ -1,7 +1,8 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 
-using StarMage.Core.Audio;
 using StarMage.Core.Enums;
 
 namespace StarMage.Core.Databases
@@ -9,7 +10,7 @@ namespace StarMage.Core.Databases
     internal static class AssetDatabase
     {
         private static Effect[] effects;
-        private static Melody[] melodies;
+        private static Song[] songs;
         private static SoundEffect[] soundEffects;
         private static Texture2D[] textures;
 
@@ -20,20 +21,14 @@ namespace StarMage.Core.Databases
                 contentManager.Load<Effect>("Effects/PaletteIndexed"),
             ];
 
-            melodies =
+            songs =
             [
-                // Main Menu Melody
-                new(
-                    new MusicNote(MidiNote.C4, 0.3f),
-                    new MusicNote(MidiNote.E4, 0.3f),
-                    new MusicNote(MidiNote.G4, 0.3f),
-                    new MusicNote(MidiNote.C5, 0.6f)
-                ),
+
             ];
 
             soundEffects =
             [
-                new(800f, 200f, 0.2f), // Jump
+
             ];
 
             textures =
@@ -49,9 +44,9 @@ namespace StarMage.Core.Databases
             return effects[(byte)effectIndex];
         }
 
-        internal static Melody GetMelody(MelodyIndex melodyIndex)
+        internal static Song GetSong(SongIndex songIndex)
         {
-            return melodies[(byte)melodyIndex];
+            return songs[(byte)songIndex];
         }
 
         internal static SoundEffect GetSoundEffect(SoundEffectIndex soundEffectIndex)

@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 
 using StarMage.Core.Actors;
 using StarMage.Core.Actors.Players;
-using StarMage.Core.Audio;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Handlers;
@@ -80,8 +81,10 @@ namespace StarMage.Core
         {
             this.mainRenderTarget2D = new(this.GraphicsDevice, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents, false);
 
-            AudioEngine.Initialize();
             TileProperty.Initialize();
+
+            MediaPlayer.Volume = 0.5f;
+            SoundEffect.MasterVolume = 0.5f;
 
             base.Initialize();
         }
@@ -181,9 +184,6 @@ namespace StarMage.Core
                 return;
             }
 
-            AudioEngine.Update();
-            MusicPlayer.Update(gameTime);
-            SoundEffectPlayer.Update(gameTime);
             Input.Update();
 
             switch (GameHandler.CurrentScene)
@@ -400,7 +400,6 @@ namespace StarMage.Core
         protected override void UnloadContent()
         {
             this.mainRenderTarget2D.Dispose();
-            AudioEngine.Dispose();
             base.UnloadContent();
         }
 

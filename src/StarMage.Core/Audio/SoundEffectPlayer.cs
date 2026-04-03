@@ -1,34 +1,51 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
+using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 
 namespace StarMage.Core.Audio
 {
     internal static class SoundEffectPlayer
     {
-        private static SoundEffect soundEffect;
-        private static float timer;
+        private static readonly SoundEffectInstance[] activeInstances = new SoundEffectInstance[Constants.MAX_CONCURRENT_SOUNDS];
 
-        internal static void SetSoundEffect(SoundEffect soundEffect)
+        private static void RegisterInstance(SoundEffectInstance instance)
         {
-            SoundEffectPlayer.soundEffect = soundEffect;
-            timer = soundEffect.Seconds;
-        }
-
-        internal static void Update(GameTime gameTime)
-        {
-            if (soundEffect == null || timer <= 0.0f)
+            for (int i = 0; i < activeInstances.Length; i++)
             {
-                return;
+                if (activeInstances[i] == null || activeInstances[i].State == SoundState.Stopped)
+                {
+                    // Dispose old if present
+                    activeInstances[i]?.Dispose();
+                    activeInstances[i] = null;
+
+                    activeInstances[i] = instance;
+                    return;
+                }
             }
 
-            timer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            // If here, no free slot found => too many instances playing.
+            // Immediately dispose to avoid leak.
+            instance.Dispose();
+        }
 
-            float progress = 1f - (timer / soundEffect.Seconds);
-            float frequency = MathHelper.Lerp(soundEffect.FrequencyStart, soundEffect.FrequencyEnd, progress);
+        private static void Play(SoundEffectIndex index, float volume, float pitch, float pan)
+        {
+            SoundEffect effect = AssetDatabase.GetSoundEffect(index);
+            SoundEffectInstance instance = effect.CreateInstance();
 
-            AudioEngine.SetChannelFrequency(AudioChannelIndex.Pulse2, frequency);
-            AudioEngine.SetChannelVolume(AudioChannelIndex.Pulse2, 1.0f);
+            instance.Volume = MathHelper.Clamp(volume, 0.0f, 1.0f);
+            instance.Pitch = MathHelper.Clamp(pitch, -1.0f, 1.0f);
+            instance.Pan = MathHelper.Clamp(pan, -1.0f, 1.0f);
+            instance.Play();
+
+            RegisterInstance(instance);
+        }
+
+        internal static void Play(SoundEffectIndex index)
+        {
+            Play(index, 1.0f, 0.0f, 0.0f);
         }
     }
 }
