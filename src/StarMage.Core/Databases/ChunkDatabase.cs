@@ -174,11 +174,11 @@ namespace StarMage.Core.Databases
                 { TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.C01, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN },
                 { TileType.NNN, TileType.E05, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN },
                 { TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.B09, TileType.NNN, TileType.NNN, TileType.E05, TileType.NNN, TileType.NNN, TileType.NNN },
-                { TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.B08, TileType.NNN, TileType.NNN, TileType.NNN, TileType.B10, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN },
-                { TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.B07, TileType.E01, TileType.NNN, TileType.NNN, TileType.B07, TileType.E01, TileType.NNN, TileType.NNN, TileType.NNN, TileType.B08, TileType.NNN },
-                { TileType.NNN, TileType.B04, TileType.B06, TileType.NNN, TileType.NNN, TileType.T08, TileType.T10, TileType.NNN, TileType.NNN, TileType.T08, TileType.T10, TileType.NNN, TileType.NNN, TileType.C02, TileType.B07, TileType.NNN },
-                { TileType.NNN, TileType.T08, TileType.T10, TileType.NNN, TileType.NNN, TileType.T11, TileType.T13, TileType.NNN, TileType.NNN, TileType.T11, TileType.T13, TileType.NNN, TileType.NNN, TileType.T08, TileType.T10, TileType.NNN },
-                { TileType.NNN, TileType.T11, TileType.T13, TileType.NNN, TileType.NNN, TileType.T11, TileType.T13, TileType.NNN, TileType.NNN, TileType.T11, TileType.T13, TileType.NNN, TileType.NNN, TileType.T11, TileType.T13, TileType.NNN },
+                { TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.B08, TileType.NNN, TileType.B08, TileType.NNN, TileType.B10, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN },
+                { TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.B07, TileType.E01, TileType.B07, TileType.E01, TileType.B07, TileType.E01, TileType.NNN, TileType.NNN, TileType.NNN, TileType.B08, TileType.NNN },
+                { TileType.NNN, TileType.B04, TileType.B06, TileType.NNN, TileType.NNN, TileType.T08, TileType.T09, TileType.T09, TileType.T09, TileType.T09, TileType.T10, TileType.NNN, TileType.NNN, TileType.C02, TileType.B07, TileType.NNN },
+                { TileType.NNN, TileType.T08, TileType.T09, TileType.T10, TileType.NNN, TileType.T11, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T13, TileType.NNN, TileType.T08, TileType.T09, TileType.T10, TileType.NNN },
+                { TileType.NNN, TileType.T11, TileType.T12, TileType.T13, TileType.NNN, TileType.T11, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T13, TileType.NNN, TileType.T11, TileType.T12, TileType.T13, TileType.NNN },
             }),
 
             #endregion

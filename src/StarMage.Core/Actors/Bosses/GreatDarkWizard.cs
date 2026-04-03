@@ -122,7 +122,7 @@ namespace StarMage.Core.Actors.Bosses
         private const byte PROJECTILE_COUNT = 3;
 
         private const float PROJECTILE_ANGLE_OFFSET = 15.0f;
-        private const float DEFAULT_SPEED = 16.0f;
+        private const float DEFAULT_SPEED = 25.0f;
         private const float LOADING_AREA = 128.0f;
 
         internal GreatDarkWizard(ActorIndex index, ActorType type, ActorTeam team, ActorManager actorManager, TileMap tileMap) : base(index, type, team, actorManager, tileMap)
