@@ -3,6 +3,7 @@
     internal enum ActorType : byte
     {
         None,
+        Boss,
         Collectable,
         Enemy,
         Particle,

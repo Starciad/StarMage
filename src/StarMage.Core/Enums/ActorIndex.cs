@@ -2,6 +2,12 @@
 {
     internal enum ActorIndex : byte
     {
+        #region BOSSES
+
+        GreatDarkWizard,
+
+        #endregion
+
         #region COLLECTIBLES
 
         BigCrystal,
@@ -16,7 +22,6 @@
         #region ENEMIES
 
         FloatingBall,
-        GreatDarkWizard,
         HappyMask,
         Slime,
         Spino,

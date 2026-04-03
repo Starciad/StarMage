@@ -108,6 +108,7 @@ namespace StarMage.Core.Actors.Players
             this.isFacingRight = true;
             this.isGrounded = false;
             this.isFirstAnimationFrame = true;
+            this.HasTileCollision = true;
             this.HasTemporarilyInvincible = false;
             this.animationFrameCounter = 0;
             this.invincibilityFrameCounter = 0;
@@ -244,7 +245,7 @@ namespace StarMage.Core.Actors.Players
 
         internal override void OnActorCollision(Actor otherActor)
         {
-            if (otherActor.Type is ActorType.Enemy || otherActor.Type is ActorType.Projectile && otherActor.Team is ActorTeam.Bad)
+            if (otherActor.Type is ActorType.Enemy or ActorType.Boss || (otherActor.Type is ActorType.Projectile && otherActor.Team is ActorTeam.Bad))
             {
                 TakeDamage(1, otherActor.Position);
             }

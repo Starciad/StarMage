@@ -1,4 +1,5 @@
 ﻿using StarMage.Core.Actors;
+using StarMage.Core.Actors.Bosses;
 using StarMage.Core.Actors.Collectibles;
 using StarMage.Core.Actors.Enemies;
 using StarMage.Core.Actors.Particles;
@@ -18,6 +19,18 @@ namespace StarMage.Core.Databases
         internal static void LoadContent(ActorManager actorManager, TileMap tileMap)
         {
             descriptors = [
+
+                #region BOSSES
+
+                new ActorDescriptor<GreatDarkWizard>(ActorIndex.GreatDarkWizard, () => new(ActorIndex.GreatDarkWizard, ActorType.Boss, ActorTeam.Bad, actorManager, tileMap)
+                {
+                    CanDraw = true,
+                    CanUpdate = true,
+                    Width = 28,
+                    Height = 28,
+                }),
+
+                #endregion
 
                 #region COLLECTIBLES
 
@@ -81,14 +94,6 @@ namespace StarMage.Core.Databases
                     HasTileCollision = true,
                     Width = 16,
                     Height = 16,
-                }),
-
-                new ActorDescriptor<GreatDarkWizard>(ActorIndex.GreatDarkWizard, () => new(ActorIndex.GreatDarkWizard, ActorType.Enemy, ActorTeam.Bad, actorManager, tileMap)
-                {
-                    CanDraw = true,
-                    CanUpdate = true,
-                    Width = 28,
-                    Height = 28,
                 }),
 
                 new ActorDescriptor<HappyMask>(ActorIndex.HappyMask, () => new(ActorIndex.HappyMask, ActorType.Enemy, ActorTeam.Bad, actorManager, tileMap)

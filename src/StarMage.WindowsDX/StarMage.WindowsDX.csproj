@@ -11,15 +11,31 @@
 		<AssemblyName>StarMage</AssemblyName>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>disable</Nullable>
+		<SelfContained>true</SelfContained>
 	</PropertyGroup>
 	<ItemGroup>
 		<MonoGameContentReference Include="..\StarMage.Core\Content\StarMage.mgcb">
 			<Link>Content\StarMage.mgcb</Link>
 		</MonoGameContentReference>
 	</ItemGroup>
+	<PropertyGroup>
+		<DisableBeauty>False</DisableBeauty>
+		<BeautySharedRuntimeMode>False</BeautySharedRuntimeMode>
+		<BeautyLibsDir Condition="$(BeautySharedRuntimeMode) == 'True'">../Libraries</BeautyLibsDir>
+		<BeautyLibsDir Condition="$(BeautySharedRuntimeMode) != 'True'">./Libraries</BeautyLibsDir>
+		<BeautyOnPublishOnly>True</BeautyOnPublishOnly>
+		<BeautyNoRuntimeInfo>False</BeautyNoRuntimeInfo>
+		<BeautyNBLoaderVerPolicy>auto</BeautyNBLoaderVerPolicy>
+		<BeautyEnableDebugging>False</BeautyEnableDebugging>
+		<BeautyUsePatch>True</BeautyUsePatch>
+		<BeautyLogLevel>Info</BeautyLogLevel>
+		<BeautyGitCDN>https://gitee.com/liesauer/HostFXRPatcher</BeautyGitCDN>
+		<BeautyGitTree>master</BeautyGitTree>
+	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.4" />
 		<PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.4" />
+		<PackageReference Include="nulastudio.NetBeauty" Version="2.1.5.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\StarMage.Core\StarMage.Core.csproj">

@@ -25,9 +25,6 @@ namespace StarMage.Core
         private byte titleAnimationFrameCounter;
         private byte titleAnimationIndex;
 
-        private Vector2 mainMenuBackgroundOffset;
-        private Rectangle mainMenuBackgroundDestination;
-
         private MagePlayer magePlayer;
 
         private SpriteBatch spriteBatch;
@@ -36,8 +33,7 @@ namespace StarMage.Core
         private readonly ActorManager actorManager;
         private readonly TileMap tileMap;
 
-        private const float OCEAN_SPEED = 1.1f;
-        private const float MAIN_MENU_BACKGROUND_SPEED = 50.0f;
+        private const float OCEAN_SPEED = 1.15f;
 
         private const byte OCEAN_ANIMATION_DELAY = 12;
         private const byte OCEAN_SPRITES_LENGTH = 4;
@@ -86,9 +82,6 @@ namespace StarMage.Core
 
             TileProperty.Initialize();
 
-            this.mainMenuBackgroundOffset = Vector2.Zero;
-            this.mainMenuBackgroundDestination = new(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
-
             base.Initialize();
         }
 
@@ -127,25 +120,11 @@ namespace StarMage.Core
                 }
             }
 
-            if (Controller.IsStartStarted())
+            if (GameHandler.CurrentScene is not Scene.Gameplay && Controller.IsStartStarted())
             {
                 GameHandler.CurrentScene = Scene.Gameplay;
                 GameHandler.Initialize(this.magePlayer, this.actorManager, this.tileMap);
             }
-        }
-
-        private void UpdateMainMenuBackground(GameTime gameTime)
-        {
-            // Update the offsets for the background pattern wrapping so that it
-            // scrolls down and to the right.
-            float offset = MAIN_MENU_BACKGROUND_SPEED * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            this.mainMenuBackgroundOffset.X -= offset;
-            this.mainMenuBackgroundOffset.Y -= offset;
-
-            // Ensure that the offsets do not go beyond the texture bounds so it is
-            // a seamless wrap.
-            this.mainMenuBackgroundOffset.X %= Constants.SCREEN_WIDTH;
-            this.mainMenuBackgroundOffset.Y %= Constants.SCREEN_HEIGHT;
         }
 
         private void UpdateCamera()
@@ -182,7 +161,7 @@ namespace StarMage.Core
 
         private void UpdateGameplay(GameTime gameTime)
         {
-            GameHandler.Update(gameTime, this.magePlayer);
+            GameHandler.Update(gameTime);
             UpdateCamera();
 
             if (!GameHandler.IsFreezeActive)
@@ -206,7 +185,6 @@ namespace StarMage.Core
             {
                 case Scene.MainMenu:
                     UpdateMainMenu();
-                    UpdateMainMenuBackground(gameTime);
                     break;
 
                 case Scene.Gameplay:
@@ -396,7 +374,6 @@ namespace StarMage.Core
                 default:
                     break;
             }
-
 
             #endregion
 

@@ -12,7 +12,7 @@ using StarMage.Core.Tiles;
 
 using System;
 
-namespace StarMage.Core.Actors.Enemies
+namespace StarMage.Core.Actors.Bosses
 {
     /*
      * A particular characteristic of this enemy is its rendering.
@@ -29,7 +29,6 @@ namespace StarMage.Core.Actors.Enemies
         private Vector2 movementDirection;
 
         private int health;
-        private float speed;
 
         private byte attackFrameCounter;
 
@@ -115,13 +114,13 @@ namespace StarMage.Core.Actors.Enemies
         ];
 
         private const byte DEFAULT_HEALTH = 80;
-        private const byte ATTACK_FRAME_DELAY = 128;
+        private const byte ATTACK_FRAME_DELAY = 160;
         private const byte HIT_ANIMATION_DURATION = 8;
         private const byte ATTACK_ANIMATION_DURATION = 4;
         private const byte PROJECTILE_COUNT = 3;
 
         private const float PROJECTILE_ANGLE_OFFSET = 15.0f;
-        private const float DEFAULT_SPEED = 38.0f;
+        private const float DEFAULT_SPEED = 32.0f;
         private const float LOADING_AREA = 128.0f;
 
         internal GreatDarkWizard(ActorIndex index, ActorType type, ActorTeam team, ActorManager actorManager, TileMap tileMap) : base(index, type, team, actorManager, tileMap)
@@ -132,31 +131,14 @@ namespace StarMage.Core.Actors.Enemies
         public override void Reset()
         {
             // Defining the boss's challenge based on the current world
-            switch (GameHandler.CurrentLevelIndex.World % 4)
+            this.health = (GameHandler.CurrentLevelIndex.World % 4) switch
             {
-                case 0:
-                    this.health = (int)(DEFAULT_HEALTH * 0.75f); // 25% less health in World 1
-                    this.speed = DEFAULT_SPEED * 0.75f; // 25% slower speed in World 1
-                    break;
-
-                case 1:
-                    this.health = (int)(DEFAULT_HEALTH * 1.25f); // 25% more health in World 2
-                    this.speed = DEFAULT_SPEED * 1.25f; // 25% faster speed in World 2
-                    break;
-
-                case 2:
-                    this.health = (int)(DEFAULT_HEALTH * 1.5f); // 50% more health in World 3
-                    this.speed = DEFAULT_SPEED * 1.5f; // 50% faster speed in World 3
-                    break;
-
-                case 3:
-                    this.health = (int)(DEFAULT_HEALTH * 2.0f); // 100% more health in World 4
-                    this.speed = DEFAULT_SPEED * 2.0f; // 100% faster speed in World 4
-                    break;
-
-                default:
-                    break;
-            }
+                0 => (int)(DEFAULT_HEALTH * 0.75f),// 25% less health in World 1
+                1 => (int)(DEFAULT_HEALTH * 1.25f),// 25% more health in World 2
+                2 => (int)(DEFAULT_HEALTH * 1.5f),// 50% more health in World 3
+                3 => (int)(DEFAULT_HEALTH * 2.0f),// 100% more health in World 4
+                _ => DEFAULT_HEALTH,
+            };
 
             // The boss starts facing to the right and moving diagonally downwards.
             this.facingDirection = 0;
@@ -197,13 +179,18 @@ namespace StarMage.Core.Actors.Enemies
 
         internal override void OnDestroyed()
         {
+            if (this.magePlayer.IsDead)
+            {
+                return; // Don't trigger the boss defeat sequence if the player is already dead
+            }
+
             ActorHelpers.CreateEnemyDeathResidues(this.ActorManager, this.Position, this.Size);
             GameHandler.BossDefeated();
 
             if (this.ActorManager.TryCreate(ActorIndex.FinishingStar, out Actor finishingStarActor))
             {
-                finishingStarActor.PositionX = CameraHandler.Position.X + (Constants.SCREEN_WIDTH / 2) - (finishingStarActor.Width / 2);
-                finishingStarActor.PositionY = CameraHandler.Position.Y + (Constants.SCREEN_HEIGHT / 2) - (finishingStarActor.Height / 2);
+                finishingStarActor.PositionX = CameraHandler.Position.X + Constants.SCREEN_WIDTH / 2 - finishingStarActor.Width / 2;
+                finishingStarActor.PositionY = CameraHandler.Position.Y + Constants.SCREEN_HEIGHT / 2 - finishingStarActor.Height / 2;
             }
         }
 
@@ -244,7 +231,7 @@ namespace StarMage.Core.Actors.Enemies
             this.targetBodyPositionY = this.PositionY;
 
             // Hand
-            this.targetHandPositionX = this.PositionX - (this.facingDirection * 18);
+            this.targetHandPositionX = this.PositionX - this.facingDirection * 18;
             this.targetHandPositionY = this.PositionY - 8;
         }
 
@@ -302,10 +289,10 @@ namespace StarMage.Core.Actors.Enemies
 
         private void UpdateMovement()
         {
-            int minX = CameraHandler.Position.X + this.Width - (this.Width / 2);
-            int minY = this.Height - (this.Height / 2);
+            int minX = CameraHandler.Position.X + this.Width - this.Width / 2;
+            int minY = this.Height - this.Height / 2;
             int maxX = CameraHandler.Position.X + Constants.SCREEN_WIDTH - this.Width - Constants.TILE_SIZE;
-            int maxY = CameraHandler.Position.Y + Constants.SCREEN_HEIGHT - this.Height - (Constants.TILE_SIZE * 4);
+            int maxY = CameraHandler.Position.Y + Constants.SCREEN_HEIGHT - this.Height - Constants.TILE_SIZE * 4;
 
             if (this.PositionX < minX || this.PositionX >= maxX)
             {
@@ -339,7 +326,7 @@ namespace StarMage.Core.Actors.Enemies
                 if (this.ActorManager.TryCreate(ActorIndex.EvilStar, out Actor projectileActor))
                 {
                     // Spread the projectiles evenly within the angle offset
-                    float spreadAngle = -PROJECTILE_ANGLE_OFFSET + (i * (PROJECTILE_ANGLE_OFFSET * 2 / (PROJECTILE_COUNT - 1)));
+                    float spreadAngle = -PROJECTILE_ANGLE_OFFSET + i * (PROJECTILE_ANGLE_OFFSET * 2 / (PROJECTILE_COUNT - 1));
                     float finalAngle = baseAngle + MathHelper.ToRadians(spreadAngle);
 
                     Vector2 direction = new(MathF.Cos(finalAngle), MathF.Sin(finalAngle));
@@ -370,8 +357,8 @@ namespace StarMage.Core.Actors.Enemies
             UpdateMovement();
             UpdateAttack();
 
-            MoveHorizontally(this.movementDirection.X * this.speed * deltaTime);
-            MoveVertically(this.movementDirection.Y * this.speed * deltaTime);
+            MoveHorizontally(this.movementDirection.X * DEFAULT_SPEED * deltaTime);
+            MoveVertically(this.movementDirection.Y * DEFAULT_SPEED * deltaTime);
         }
 
         private Rectangle GetHeadSpriteRectangle()
@@ -395,7 +382,7 @@ namespace StarMage.Core.Actors.Enemies
                 byte damageIndex = (byte)(this.isShowingDamage ? 3 : 0); // Normal attack sprites are at index 0-3, damaged attack sprites are at index 4-7
                 byte attackIndex = this.handAttackAnimationIndex; // Attack animation frames are at index 0-3 for normal and 4-7 for damaged
 
-                return handAttackSpriteRectangles[(directionIndex * 3) + attackIndex + damageIndex];
+                return handAttackSpriteRectangles[directionIndex * 3 + attackIndex + damageIndex];
             }
             else
             {

@@ -23,6 +23,7 @@ namespace StarMage.Core.Handlers
 
         private static bool bossAppeared;
 
+        private static float gameOverDelay;
         private static float cameraMovementDelay;
         private static float freezeDuration;
         private static float secondsAccumulator;
@@ -33,6 +34,8 @@ namespace StarMage.Core.Handlers
         private static ActorManager actorManager;
         private static TileMap tileMap;
 
+        private const float GAME_OVER_SCREEN_DURATION = 5.0f;
+
         private static int GetLevelTime()
         {
             return Constants.DEFAULT_LEVEL_SECONDS + (CurrentLevelIndex * 5) + (CurrentLevelIndex.LevelInWorld % 4 == 0 ? Constants.DEFAULT_LEVEL_SECONDS : 0);
@@ -40,6 +43,8 @@ namespace StarMage.Core.Handlers
 
         internal static void Initialize(MagePlayer magePlayer, ActorManager actorManager, TileMap tileMap)
         {
+            actorManager.Clear(x => x.Type is ActorType.Player);
+
             IsGameOver = false;
             CurrentLevelIndex = new();
             TotalRemainingSeconds = GetLevelTime();
@@ -52,14 +57,20 @@ namespace StarMage.Core.Handlers
             GameHandler.tileMap = tileMap;
 
             magePlayer.Reset();
-            magePlayer.CanUpdate = false;
             magePlayer.CanDraw = false;
+            magePlayer.CanUpdate = false;
 
             levelProfile = LevelGenerator.Generate(actorManager, tileMap);
         }
 
         internal static void NextLevel()
         {
+            if (CurrentLevelIndex == Constants.FINAL_LEVEL)
+            {
+                GameCompleted();
+                return;
+            }
+
             CurrentLevelIndex++;
             BigCrystalCollected = 0;
             TotalRemainingSeconds = GetLevelTime();
@@ -70,6 +81,7 @@ namespace StarMage.Core.Handlers
             magePlayer.CanUpdate = false;
             magePlayer.CanDraw = false;
 
+            actorManager.Clear(x => x.Type is ActorType.Player);
             levelProfile = LevelGenerator.Generate(actorManager, tileMap);
         }
 
@@ -121,23 +133,33 @@ namespace StarMage.Core.Handlers
             {
                 bossAppeared = false;
                 IsFreezeActive = false;
+
+                actorManager.Clear(x => x.Type is ActorType.Player or ActorType.Boss);
             }
 
             CameraHandler.Position = cameraPosition;
         }
 
-        internal static void Update(GameTime gameTime, MagePlayer magePlayer)
+        internal static void Update(GameTime gameTime)
         {
-            if (IsGameOver)
-            {
-                return;
-            }
-
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            UpdateTimer(deltaTime);
-            UpdateFreeze(deltaTime);
-            UpdateBossAppearance(deltaTime);
+            if (IsGameOver)
+            {
+                gameOverDelay -= deltaTime;
+
+                if (gameOverDelay <= 0.0f)
+                {
+                    gameOverDelay = 0.0f;
+                    CurrentScene = Scene.MainMenu;
+                }
+            }
+            else
+            {
+                UpdateTimer(deltaTime);
+                UpdateFreeze(deltaTime);
+                UpdateBossAppearance(deltaTime);
+            }
         }
 
         internal static void CollectBigCrystal()
@@ -146,6 +168,12 @@ namespace StarMage.Core.Handlers
         }
 
         internal static void GameOver()
+        {
+            IsGameOver = true;
+            gameOverDelay = GAME_OVER_SCREEN_DURATION;
+        }
+
+        internal static void GameCompleted()
         {
             IsGameOver = true;
         }

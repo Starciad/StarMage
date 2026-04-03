@@ -25,6 +25,7 @@ namespace StarMage.Core
         internal const float GAME_FPS = 1.0f / 60.0f;
 
         internal const byte DEFAULT_BIG_CRYSTALS_PER_LEVEL = 3;
+        internal const byte FINAL_LEVEL = 16;
 
         internal static readonly Point SCREEN_SIZE = new(SCREEN_WIDTH, SCREEN_HEIGHT);
 
