@@ -2,6 +2,17 @@
 {
     internal enum SoundEffectIndex : byte
     {
-
+        CollectedHeart,
+        CollectedStar,
+        DarkWizardExplosion,
+        DarkWizardProjectile,
+        EnemyExploded,
+        EnemyHit,
+        ItemCollected,
+        PlayerDeath,
+        PlayerHit,
+        PlayerJump,
+        PlayerShooting,
+        SpitterProjectile,
     }
 }

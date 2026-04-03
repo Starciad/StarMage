@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 
 using StarMage.Core.Actors.Players;
+using StarMage.Core.Audio;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Managers;
@@ -62,20 +63,21 @@ namespace StarMage.Core.Actors.Enemies
 
                 if (this.health <= 0)
                 {
+                    SoundEffectPlayer.Play(SoundEffectIndex.EnemyExploded);
                     this.ActorManager.Destroy(this);
+                    return;
                 }
-                else
+
+                SoundEffectPlayer.Play(SoundEffectIndex.EnemyHit);
+                this.isShowingDamage = true;
+
+                // Knockback
+                Vector2 knockbackDirection = new(this.PositionX - otherActor.PositionX, this.PositionY - otherActor.PositionY);
+
+                if (knockbackDirection != Vector2.Zero)
                 {
-                    this.isShowingDamage = true;
-
-                    // Knockback
-                    Vector2 knockbackDirection = new(this.PositionX - otherActor.PositionX, this.PositionY - otherActor.PositionY);
-
-                    if (knockbackDirection != Vector2.Zero)
-                    {
-                        knockbackDirection.Normalize();
-                        this.velocity += knockbackDirection * KNOCKBACK_STRENGTH; // Knockback strength
-                    }
+                    knockbackDirection.Normalize();
+                    this.velocity += knockbackDirection * KNOCKBACK_STRENGTH; // Knockback strength
                 }
             }
         }

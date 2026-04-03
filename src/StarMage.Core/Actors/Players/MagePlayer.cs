@@ -177,6 +177,7 @@ namespace StarMage.Core.Actors.Players
         private void PerformDeath(Point origin)
         {
             GameHandler.GameOver();
+            SoundEffectPlayer.Play(SoundEffectIndex.PlayerDeath);
 
             this.HasTileCollision = false;
 
@@ -186,6 +187,8 @@ namespace StarMage.Core.Actors.Players
 
         private void PerformKnockback(Point origin)
         {
+            SoundEffectPlayer.Play(SoundEffectIndex.PlayerHit);
+
             this.velocityX = KNOCKBACK_HORIZONTAL_FORCE * (this.PositionX < origin.X ? -1.0f : 1.0f);
             this.velocityY = KNOCKBACK_VERTICAL_FORCE * -0.75f;
         }
@@ -318,6 +321,8 @@ namespace StarMage.Core.Actors.Players
 
         private void Jump(float force)
         {
+            SoundEffectPlayer.Play(SoundEffectIndex.PlayerJump);
+
             this.isGrounded = false;
             this.coyoteTimeCounter = 0.0f;
 
@@ -355,6 +360,7 @@ namespace StarMage.Core.Actors.Players
             }
 
             this.shootFrameCounter = 0;
+            SoundEffectPlayer.Play(SoundEffectIndex.PlayerShooting);
 
             switch (this.SpellType)
             {

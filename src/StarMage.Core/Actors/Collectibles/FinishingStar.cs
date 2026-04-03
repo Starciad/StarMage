@@ -78,6 +78,7 @@ namespace StarMage.Core.Actors.Collectibles
         {
             if (!this.isCollected && otherActor.Type is ActorType.Player)
             {
+                SoundEffectPlayer.Play(SoundEffectIndex.CollectedStar);
                 SongPlayer.Stop();
                 otherActor.CanUpdate = false;
                 otherActor.CanDraw = false;

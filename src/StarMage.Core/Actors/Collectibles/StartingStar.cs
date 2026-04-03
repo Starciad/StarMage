@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 
 using StarMage.Core.Actors.Players;
+using StarMage.Core.Audio;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Handlers;
@@ -41,6 +42,7 @@ namespace StarMage.Core.Actors.Collectibles
 
         internal override void OnCreated()
         {
+            SoundEffectPlayer.Play(SoundEffectIndex.CollectedStar);
             this.magePlayer = (MagePlayer)this.ActorManager.GetActor(ActorIndex.MagePlayer);
             this.magePlayer.Position = this.Position;
             CameraHandler.Position = Point.Zero;

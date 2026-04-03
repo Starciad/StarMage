@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using StarMage.Core.Audio;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Managers;
@@ -41,10 +42,12 @@ namespace StarMage.Core.Actors.Collectibles
 
                 if (this.health <= 0)
                 {
+                    SoundEffectPlayer.Play(SoundEffectIndex.EnemyExploded);
                     this.ActorManager.Destroy(this);
                     return;
                 }
 
+                SoundEffectPlayer.Play(SoundEffectIndex.EnemyHit);
                 this.isShowingDamage = true;
             }
         }

@@ -49,6 +49,78 @@
 /processorParam:Quality=Best
 /build:Songs/World_04.wav
 
+#begin SoundEffects/Collected_Heart.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Collected_Heart.wav
+
+#begin SoundEffects/Collected_Star.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Collected_Star.wav
+
+#begin SoundEffects/Dark_Wizard_Explosion.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Dark_Wizard_Explosion.wav
+
+#begin SoundEffects/Dark_Wizard_Projectile.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Dark_Wizard_Projectile.wav
+
+#begin SoundEffects/Enemy_Exploded.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Enemy_Exploded.wav
+
+#begin SoundEffects/Enemy_Hit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Enemy_Hit.wav
+
+#begin SoundEffects/Item_Collected.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Item_Collected.wav
+
+#begin SoundEffects/Player_Death.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Player_Death.wav
+
+#begin SoundEffects/Player_Hit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Player_Hit.wav
+
+#begin SoundEffects/Player_Jump.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Player_Jump.wav
+
+#begin SoundEffects/Player_Shooting.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Player_Shooting.wav
+
+#begin SoundEffects/Spitter_Projectile.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Spitter_Projectile.wav
+
 #begin Textures/Actors.png
 /importer:TextureImporter
 /processor:TextureProcessor

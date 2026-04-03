@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using StarMage.Core.Actors.Players;
 using StarMage.Core.Actors.Projectiles;
+using StarMage.Core.Audio;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Extensions;
@@ -121,10 +122,12 @@ namespace StarMage.Core.Actors.Enemies
 
                 if (this.health <= 0)
                 {
+                    SoundEffectPlayer.Play(SoundEffectIndex.EnemyExploded);
                     this.ActorManager.Destroy(this);
                     return;
                 }
 
+                SoundEffectPlayer.Play(SoundEffectIndex.EnemyHit);
                 this.isShowingDamage = true;
             }
         }
@@ -185,6 +188,7 @@ namespace StarMage.Core.Actors.Enemies
                 return;
             }
 
+            SoundEffectPlayer.Play(SoundEffectIndex.SpitterProjectile);
             this.spitCooldownCounter = DEFAULT_SPIT_COOLDOWN;
 
             if (this.ActorManager.TryCreate(ActorIndex.SpinyBall, out Actor spinyBallActor))

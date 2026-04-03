@@ -32,7 +32,18 @@ namespace StarMage.Core.Databases
 
             soundEffects =
             [
-
+                contentManager.Load<SoundEffect>("SoundEffects/Collected_Heart"),
+                contentManager.Load<SoundEffect>("SoundEffects/Collected_Star"),
+                contentManager.Load<SoundEffect>("SoundEffects/Dark_Wizard_Explosion"),
+                contentManager.Load<SoundEffect>("SoundEffects/Dark_Wizard_Projectile"),
+                contentManager.Load<SoundEffect>("SoundEffects/Enemy_Exploded"),
+                contentManager.Load<SoundEffect>("SoundEffects/Enemy_Hit"),
+                contentManager.Load<SoundEffect>("SoundEffects/Item_Collected"),
+                contentManager.Load<SoundEffect>("SoundEffects/Player_Death"),
+                contentManager.Load<SoundEffect>("SoundEffects/Player_Hit"),
+                contentManager.Load<SoundEffect>("SoundEffects/Player_Jump"),
+                contentManager.Load<SoundEffect>("SoundEffects/Player_Shooting"),
+                contentManager.Load<SoundEffect>("SoundEffects/Spitter_Projectile"),
             ];
 
             textures =

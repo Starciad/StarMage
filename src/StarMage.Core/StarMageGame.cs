@@ -82,7 +82,7 @@ namespace StarMage.Core
             this.mainRenderTarget2D = new(this.GraphicsDevice, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents, false);
 
             TileProperty.Initialize();
-
+            MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = 0.5f;
             SoundEffect.MasterVolume = 0.5f;
 

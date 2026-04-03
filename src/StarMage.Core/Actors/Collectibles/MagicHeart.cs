@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 
 using StarMage.Core.Actors.Players;
+using StarMage.Core.Audio;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Managers;
@@ -42,6 +43,7 @@ namespace StarMage.Core.Actors.Collectibles
         {
             if (!this.isCollected && otherActor.Index is ActorIndex.MagePlayer)
             {
+                SoundEffectPlayer.Play(SoundEffectIndex.CollectedHeart);
                 this.isCollected = true;
                 this.ActorManager.Destroy(this);
                 ((MagePlayer)otherActor).Heal(1);

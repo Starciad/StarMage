@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using StarMage.Core.Actors.Players;
 using StarMage.Core.Actors.Projectiles;
+using StarMage.Core.Audio;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Extensions;
@@ -114,14 +115,14 @@ namespace StarMage.Core.Actors.Bosses
             #endregion
         ];
 
-        private const byte DEFAULT_HEALTH = 30;
+        private const byte DEFAULT_HEALTH = 50;
         private const byte ATTACK_FRAME_DELAY = 160;
         private const byte HIT_ANIMATION_DURATION = 8;
         private const byte ATTACK_ANIMATION_DURATION = 4;
         private const byte PROJECTILE_COUNT = 3;
 
         private const float PROJECTILE_ANGLE_OFFSET = 15.0f;
-        private const float DEFAULT_SPEED = 32.0f;
+        private const float DEFAULT_SPEED = 16.0f;
         private const float LOADING_AREA = 128.0f;
 
         internal GreatDarkWizard(ActorIndex index, ActorType type, ActorTeam team, ActorManager actorManager, TileMap tileMap) : base(index, type, team, actorManager, tileMap)
@@ -189,10 +190,12 @@ namespace StarMage.Core.Actors.Bosses
 
                 if (this.health <= 0)
                 {
+                    SoundEffectPlayer.Play(SoundEffectIndex.DarkWizardExplosion);
                     this.ActorManager.Destroy(this);
                     return;
                 }
 
+                SoundEffectPlayer.Play(SoundEffectIndex.EnemyHit);
                 this.isShowingDamage = true;
             }
         }
@@ -331,6 +334,8 @@ namespace StarMage.Core.Actors.Bosses
             {
                 return;
             }
+
+            SoundEffectPlayer.Play(SoundEffectIndex.DarkWizardProjectile);
 
             this.attackFrameCounter = 0;
             this.isAttacking = true;

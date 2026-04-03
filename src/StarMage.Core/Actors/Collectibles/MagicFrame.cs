@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 
 using StarMage.Core.Actors.Players;
+using StarMage.Core.Audio;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Extensions;
@@ -81,6 +82,7 @@ namespace StarMage.Core.Actors.Collectibles
         {
             if (!this.isCollected && otherActor.Type is ActorType.Player)
             {
+                SoundEffectPlayer.Play(SoundEffectIndex.ItemCollected);
                 this.isCollected = true;
                 ((MagePlayer)otherActor).SpellType = this.targetSpellType;
                 this.ActorManager.Destroy(this);
