@@ -135,7 +135,7 @@ namespace StarMage.Core.Databases
                 { TileType.T11, TileType.T13, TileType.NNN, TileType.NNN, TileType.T11, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T13, TileType.NNN, TileType.NNN, TileType.T11, TileType.T13 },
                 { TileType.T11, TileType.T13, TileType.NNN, TileType.NNN, TileType.T11, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T13, TileType.NNN, TileType.NNN, TileType.T11, TileType.T13 },
             }),
-            
+
             new(ChunkType.Normal, new TileType[,]
             {
                 { TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN },
@@ -150,7 +150,7 @@ namespace StarMage.Core.Databases
                 { TileType.T08, TileType.T09, TileType.T09, TileType.T09, TileType.T09, TileType.T09, TileType.T09, TileType.T09, TileType.T09, TileType.T09, TileType.T09, TileType.T09, TileType.T09, TileType.T17, TileType.T12, TileType.T13 },
                 { TileType.T11, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T12, TileType.T13 },
             }),
-            
+
             new(ChunkType.Normal, new TileType[,]
             {
                 { TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN, TileType.NNN },

@@ -94,14 +94,7 @@ namespace StarMage.Core.Actors.Enemies
 
         private void UpdateCurrentSpriteIndex()
         {
-            if (this.direction > 0)
-            {
-                this.currentSpriteIndex = (byte)(this.isShowingDamage ? 1 : 0);
-            }
-            else
-            {
-                this.currentSpriteIndex = (byte)(this.isShowingDamage ? 3 : 2);
-            }
+            this.currentSpriteIndex = this.direction > 0 ? (byte)(this.isShowingDamage ? 1 : 0) : (byte)(this.isShowingDamage ? 3 : 2);
         }
 
         internal override void Update(GameTime gameTime)
@@ -111,7 +104,7 @@ namespace StarMage.Core.Actors.Enemies
             UpdateDamageAnimation();
             UpdateCurrentSpriteIndex();
 
-            MoveHorizontally(direction * DEFAULT_SPEED * deltaTime);
+            MoveHorizontally(this.direction * DEFAULT_SPEED * deltaTime);
         }
 
         internal override void Draw(SpriteBatch spriteBatch)

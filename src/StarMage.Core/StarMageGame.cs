@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Media;
 
 using StarMage.Core.Actors;
 using StarMage.Core.Actors.Players;
+using StarMage.Core.Audio;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Handlers;
@@ -20,6 +21,7 @@ namespace StarMage.Core
     public sealed class StarMageGame : Game
     {
         private bool isActivated;
+        private bool isPaused;
 
         private byte oceanAnimationFrameCounter;
         private byte oceanAnimationIndex;
@@ -109,7 +111,6 @@ namespace StarMage.Core
 
         protected override void BeginRun()
         {
-            // MusicPlayer.SetMelody(AssetDatabase.GetMelody(MelodyIndex.MainMenu));
             CreatePlayer();
             base.BeginRun();
         }
@@ -164,6 +165,15 @@ namespace StarMage.Core
             }
         }
 
+        private void UpdatePauseState()
+        {
+            if (Controller.IsStartStarted())
+            {
+                SoundEffectPlayer.Play(SoundEffectIndex.CollectedStar);
+                this.isPaused = !this.isPaused;
+            }
+        }
+
         private void UpdateGameplay(GameTime gameTime)
         {
             GameHandler.Update(gameTime);
@@ -189,11 +199,18 @@ namespace StarMage.Core
             switch (GameHandler.CurrentScene)
             {
                 case Scene.MainMenu:
+                    this.isPaused = false;
                     UpdateMainMenu();
                     break;
 
                 case Scene.Gameplay:
-                    UpdateGameplay(gameTime);
+                    UpdatePauseState();
+
+                    if (!this.isPaused)
+                    {
+                        UpdateGameplay(gameTime);
+                    }
+
                     break;
 
                 default:
@@ -357,6 +374,20 @@ namespace StarMage.Core
             this.spriteBatch.End();
         }
 
+        private void DrawPauseOverlay()
+        {
+            if (!this.isPaused)
+            {
+                return;
+            }
+
+            PaletteHandler.SetPalette(PaletteIndex.TechNeonSprite);
+
+            this.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, AssetDatabase.GetEffect(EffectIndex.PaletteIndexed), Matrix.CreateTranslation(0, 0, 0));
+            TextRenderer.DrawText(this.spriteBatch, "PAUSED", new(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 2), TextRenderSettings.Centered);
+            this.spriteBatch.End();
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             #region Content
@@ -373,6 +404,7 @@ namespace StarMage.Core
                 case Scene.Gameplay:
                     DrawGameplayContent();
                     DrawGameplayHUD();
+                    DrawPauseOverlay();
                     break;
 
                 default:
