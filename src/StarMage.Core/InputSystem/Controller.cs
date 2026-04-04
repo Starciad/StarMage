@@ -68,5 +68,10 @@ namespace StarMage.Core.InputSystem
         {
             return Input.Started(Keys.Enter) || Input.Started(Buttons.Start);
         }
+
+        internal static bool IsFullscreenToggleStarted()
+        {
+            return Input.Started(Keys.F11);
+        }
     }
 }

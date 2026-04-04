@@ -36,6 +36,7 @@ namespace StarMage.Core
 
         private readonly ActorManager actorManager;
         private readonly TileMap tileMap;
+        private readonly GraphicsDeviceManager graphicsDeviceManager;
 
         private const float OCEAN_SPEED = 1.15f;
 
@@ -47,7 +48,7 @@ namespace StarMage.Core
 
         public StarMageGame()
         {
-            _ = new GraphicsDeviceManager(this)
+            this.graphicsDeviceManager = new(this)
             {
                 GraphicsProfile = GraphicsProfile.Reach,
                 PreferredBackBufferFormat = SurfaceFormat.Color,
@@ -174,6 +175,14 @@ namespace StarMage.Core
             }
         }
 
+        private void UpdateFullscreenToggle()
+        {
+            if (Controller.IsFullscreenToggleStarted())
+            {
+                this.graphicsDeviceManager.ToggleFullScreen();
+            }
+        }
+
         private void UpdateGameplay(GameTime gameTime)
         {
             GameHandler.Update(gameTime);
@@ -195,6 +204,7 @@ namespace StarMage.Core
             }
 
             Input.Update();
+            UpdateFullscreenToggle();
 
             switch (GameHandler.CurrentScene)
             {
