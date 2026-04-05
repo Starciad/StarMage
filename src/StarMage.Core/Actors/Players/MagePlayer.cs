@@ -82,7 +82,7 @@ namespace StarMage.Core.Actors.Players
 
         private const byte INVINCIBILITY_DURATION_FRAMES = 192;
         private const byte INVINCIBILITY_BLINK_INTERVAL_FRAMES = 5;
-        
+
         private const byte BOLT_PROJECTILES_COUNT = 2;
         private const byte BOUNCE_PROJECTILES_COUNT = 2;
         private const byte WAVE_PROJECTILES_COUNT = 6;
