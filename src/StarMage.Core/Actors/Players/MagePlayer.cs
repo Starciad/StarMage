@@ -82,6 +82,11 @@ namespace StarMage.Core.Actors.Players
 
         private const byte INVINCIBILITY_DURATION_FRAMES = 192;
         private const byte INVINCIBILITY_BLINK_INTERVAL_FRAMES = 5;
+        
+        private const byte BOLT_PROJECTILES_COUNT = 2;
+        private const byte BOUNCE_PROJECTILES_COUNT = 2;
+        private const byte WAVE_PROJECTILES_COUNT = 6;
+        private const byte ZIG_ZAG_PROJECTILES_COUNT = 2;
 
         private const float GRAVITY = 650.0f;
         private const float ACCELERATION = 11.0f;
@@ -364,7 +369,8 @@ namespace StarMage.Core.Actors.Players
             switch (this.SpellType)
             {
                 case SpellType.Bolt:
-                    if (this.ActorManager.TryCreate(ActorIndex.BoltSpell, out Actor magicBallActor))
+                    if (this.ActorManager.GetActorCount(ActorIndex.BoltSpell) < BOLT_PROJECTILES_COUNT &&
+                        this.ActorManager.TryCreate(ActorIndex.BoltSpell, out Actor magicBallActor))
                     {
                         BoltSpell magicBall = (BoltSpell)magicBallActor;
 
@@ -376,7 +382,8 @@ namespace StarMage.Core.Actors.Players
                     break;
 
                 case SpellType.Bounce:
-                    if (this.ActorManager.TryCreate(ActorIndex.BounceSpell, out Actor bounceSpellActor))
+                    if (this.ActorManager.GetActorCount(ActorIndex.BounceSpell) < BOUNCE_PROJECTILES_COUNT &&
+                        this.ActorManager.TryCreate(ActorIndex.BounceSpell, out Actor bounceSpellActor))
                     {
                         BounceSpell bounceSpell = (BounceSpell)bounceSpellActor;
 
@@ -388,7 +395,8 @@ namespace StarMage.Core.Actors.Players
                     break;
 
                 case SpellType.ZigZag:
-                    if (this.ActorManager.TryCreate(ActorIndex.ZigZagSpell, out Actor zigZagSpellActor))
+                    if (this.ActorManager.GetActorCount(ActorIndex.ZigZagSpell) < ZIG_ZAG_PROJECTILES_COUNT &&
+                        this.ActorManager.TryCreate(ActorIndex.ZigZagSpell, out Actor zigZagSpellActor))
                     {
                         ZigZagSpell zigZagSpell = (ZigZagSpell)zigZagSpellActor;
 
@@ -401,17 +409,20 @@ namespace StarMage.Core.Actors.Players
                     break;
 
                 case SpellType.Wave:
-                    for (int i = 0; i < 6; i++)
+                    if (this.ActorManager.GetActorCount(ActorIndex.WaveSpell) < WAVE_PROJECTILES_COUNT)
                     {
-                        if (this.ActorManager.TryCreate(ActorIndex.WaveSpell, out Actor waveSpellActor))
+                        for (int i = 0; i < WAVE_PROJECTILES_COUNT; i++)
                         {
-                            WaveSpell waveSpell = (WaveSpell)waveSpellActor;
+                            if (this.ActorManager.TryCreate(ActorIndex.WaveSpell, out Actor waveSpellActor))
+                            {
+                                WaveSpell waveSpell = (WaveSpell)waveSpellActor;
 
-                            waveSpell.PositionX = this.PositionX + (this.isFacingRight ? BULLET_DISTANCE : -BULLET_DISTANCE);
-                            waveSpell.PositionY = this.PositionY;
+                                waveSpell.PositionX = this.PositionX + (this.isFacingRight ? BULLET_DISTANCE : -BULLET_DISTANCE);
+                                waveSpell.PositionY = this.PositionY;
 
-                            float angle = i * (MathF.PI / (6.0f / 2.0f));
-                            waveSpell.Direction = new(MathF.Cos(angle), MathF.Sin(angle));
+                                float angle = i * (MathF.PI / (WAVE_PROJECTILES_COUNT / 2.0f));
+                                waveSpell.Direction = new(MathF.Cos(angle), MathF.Sin(angle));
+                            }
                         }
                     }
 

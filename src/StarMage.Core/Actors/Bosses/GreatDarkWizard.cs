@@ -38,6 +38,7 @@ namespace StarMage.Core.Actors.Bosses
 
         private byte handAttackAnimationIndex;
 
+        private bool isDead;
         private bool isShowingDamage;
         private bool isAttacking;
         private bool isLoading;
@@ -165,6 +166,7 @@ namespace StarMage.Core.Actors.Bosses
             this.movementDirection = new Vector2(1, 1);
             this.isShowingDamage = false;
             this.isLoading = false;
+            this.isDead = false;
 
             this.hitAnimationCounter = 0;
             this.attackFrameCounter = 0;
@@ -204,8 +206,9 @@ namespace StarMage.Core.Actors.Bosses
                 this.ActorManager.Destroy(otherActor);
                 this.health--;
 
-                if (this.health <= 0)
+                if (!this.isDead && this.health <= 0)
                 {
+                    this.isDead = true;
                     PerformDeath();
                     this.ActorManager.Destroy(this);
                     return;
