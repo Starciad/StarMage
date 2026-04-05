@@ -23,6 +23,8 @@ namespace StarMage.Core.Actors.Collectibles
 
         private Rectangle currentAnimationFrame;
 
+        private static readonly HashSet<SpellType> recentlyDistributedSpells = [];
+
         private static readonly Rectangle[] animationFrames =
         [
             // Spell Type 00 (Bolt)
@@ -43,8 +45,6 @@ namespace StarMage.Core.Actors.Collectibles
         ];
 
         private const byte ANIMATION_FRAME_DELAY = 12;
-        private const float AMPLITUDE = 4.5f;
-        private const float SPEED = 1.5f;
 
         internal MagicFrame(ActorIndex index, ActorType type, ActorTeam team, ActorManager actorManager, TileMap tileMap) : base(index, type, team, actorManager, tileMap)
         {
@@ -63,7 +63,7 @@ namespace StarMage.Core.Actors.Collectibles
         {
             MagePlayer magePlayer = (MagePlayer)this.ActorManager.GetActor(ActorIndex.MagePlayer);
 
-            List<SpellType> spells =
+            List<SpellType> availableSpells =
             [
                 SpellType.Bolt,
                 SpellType.Bounce,
@@ -71,9 +71,31 @@ namespace StarMage.Core.Actors.Collectibles
                 SpellType.Wave
             ];
 
-            _ = spells.Remove(magePlayer.SpellType);
+            _ = availableSpells.Remove(magePlayer.SpellType);
 
-            this.targetSpellType = spells.GetRandomItem();
+            foreach (SpellType spell in recentlyDistributedSpells)
+            {
+                _ = availableSpells.Remove(spell);
+            }
+
+            if (availableSpells.Count == 0)
+            {
+                recentlyDistributedSpells.Clear();
+                
+                availableSpells =
+                [
+                    SpellType.Bolt,
+                    SpellType.Bounce,
+                    SpellType.ZigZag,
+                    SpellType.Wave
+                ];
+
+                _ = availableSpells.Remove(magePlayer.SpellType);
+            }
+
+            this.targetSpellType = availableSpells.GetRandomItem();
+            _ = recentlyDistributedSpells.Add(this.targetSpellType);
+
             this.currentAnimationFrame = animationFrames[(int)this.targetSpellType * 2];
         }
 

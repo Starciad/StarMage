@@ -85,7 +85,7 @@ namespace StarMage.Core.Actors.Players
 
         private const byte BOLT_PROJECTILES_COUNT = 2;
         private const byte BOUNCE_PROJECTILES_COUNT = 2;
-        private const byte WAVE_PROJECTILES_COUNT = 6;
+        private const byte WAVE_PROJECTILES_COUNT = 12;
         private const byte ZIG_ZAG_PROJECTILES_COUNT = 2;
 
         private const float GRAVITY = 650.0f;
@@ -363,73 +363,93 @@ namespace StarMage.Core.Actors.Players
                 return;
             }
 
-            this.shootFrameCounter = 0;
-            SoundEffectPlayer.Play(SoundEffectIndex.PlayerShooting);
+            int spawnX = this.PositionX + (this.isFacingRight ? BULLET_DISTANCE : -BULLET_DISTANCE);
+            sbyte directionX = (sbyte)(this.isFacingRight ? 1 : -1);
 
-            switch (this.SpellType)
+            bool spellCasted = this.SpellType switch
             {
-                case SpellType.Bolt:
-                    if (this.ActorManager.GetActorCount(ActorIndex.BoltSpell) < BOLT_PROJECTILES_COUNT &&
-                        this.ActorManager.TryCreate(ActorIndex.BoltSpell, out Actor magicBallActor))
+                SpellType.Bolt => TryCastBolt(),
+                SpellType.Bounce => TryCastBounce(),
+                SpellType.ZigZag => TryCastZigZag(),
+                SpellType.Wave => TryCastWave(),
+                _ => false,
+            };
+
+            if (spellCasted)
+            {
+                this.shootFrameCounter = 0;
+                SoundEffectPlayer.Play(SoundEffectIndex.PlayerShooting);
+            }
+
+            bool TryCastBolt()
+            {
+                if (this.ActorManager.GetActorCount(ActorIndex.BoltSpell) < BOLT_PROJECTILES_COUNT &&
+                    this.ActorManager.TryCreate(ActorIndex.BoltSpell, out Actor actor) &&
+                    actor is BoltSpell spell)
+                {
+                    spell.PositionX = spawnX;
+                    spell.PositionY = this.PositionY;
+                    spell.HorizontalDirection = directionX;
+                    return true;
+                }
+
+                return false;
+            }
+
+            bool TryCastBounce()
+            {
+                if (this.ActorManager.GetActorCount(ActorIndex.BounceSpell) < BOUNCE_PROJECTILES_COUNT &&
+                    this.ActorManager.TryCreate(ActorIndex.BounceSpell, out Actor actor) &&
+                    actor is BounceSpell spell)
+                {
+                    spell.PositionX = spawnX;
+                    spell.PositionY = this.PositionY;
+                    spell.HorizontalDirection = directionX;
+                    return true;
+                }
+
+                return false;
+            }
+
+            bool TryCastZigZag()
+            {
+                if (this.ActorManager.GetActorCount(ActorIndex.ZigZagSpell) < ZIG_ZAG_PROJECTILES_COUNT &&
+                    this.ActorManager.TryCreate(ActorIndex.ZigZagSpell, out Actor actor) &&
+                    actor is ZigZagSpell spell)
+                {
+                    spell.PositionX = spawnX;
+                    spell.PositionY = this.PositionY;
+                    spell.Direction = new(directionX, 1);
+                    return true;
+                }
+
+                return false;
+            }
+
+            bool TryCastWave()
+            {
+                if (this.ActorManager.GetActorCount(ActorIndex.WaveSpell) > 0)
+                {
+                    return false;
+                }
+
+                bool anyCasted = false;
+
+                for (int i = 0; i < WAVE_PROJECTILES_COUNT; i++)
+                {
+                    if (this.ActorManager.TryCreate(ActorIndex.WaveSpell, out Actor actor) &&
+                        actor is WaveSpell spell)
                     {
-                        BoltSpell magicBall = (BoltSpell)magicBallActor;
+                        spell.PositionX = this.PositionX - 2;
+                        spell.PositionY = this.PositionY;
 
-                        magicBall.PositionX = this.PositionX + (this.isFacingRight ? BULLET_DISTANCE : -BULLET_DISTANCE);
-                        magicBall.PositionY = this.PositionY;
-                        magicBall.HorizontalDirection = (sbyte)(this.isFacingRight ? 1 : -1);
+                        float angle = i * (MathF.PI / (WAVE_PROJECTILES_COUNT / 2.0f));
+                        spell.Direction = new(MathF.Cos(angle), MathF.Sin(angle));
+                        anyCasted = true;
                     }
+                }
 
-                    break;
-
-                case SpellType.Bounce:
-                    if (this.ActorManager.GetActorCount(ActorIndex.BounceSpell) < BOUNCE_PROJECTILES_COUNT &&
-                        this.ActorManager.TryCreate(ActorIndex.BounceSpell, out Actor bounceSpellActor))
-                    {
-                        BounceSpell bounceSpell = (BounceSpell)bounceSpellActor;
-
-                        bounceSpell.PositionX = this.PositionX + (this.isFacingRight ? BULLET_DISTANCE : -BULLET_DISTANCE);
-                        bounceSpell.PositionY = this.PositionY;
-                        bounceSpell.HorizontalDirection = (sbyte)(this.isFacingRight ? 1 : -1);
-                    }
-
-                    break;
-
-                case SpellType.ZigZag:
-                    if (this.ActorManager.GetActorCount(ActorIndex.ZigZagSpell) < ZIG_ZAG_PROJECTILES_COUNT &&
-                        this.ActorManager.TryCreate(ActorIndex.ZigZagSpell, out Actor zigZagSpellActor))
-                    {
-                        ZigZagSpell zigZagSpell = (ZigZagSpell)zigZagSpellActor;
-
-                        zigZagSpell.PositionX = this.PositionX + (this.isFacingRight ? BULLET_DISTANCE : -BULLET_DISTANCE);
-                        zigZagSpell.PositionY = this.PositionY;
-
-                        zigZagSpell.Direction = new(this.isFacingRight ? 1 : -1, 1);
-                    }
-
-                    break;
-
-                case SpellType.Wave:
-                    if (this.ActorManager.GetActorCount(ActorIndex.WaveSpell) < WAVE_PROJECTILES_COUNT)
-                    {
-                        for (int i = 0; i < WAVE_PROJECTILES_COUNT; i++)
-                        {
-                            if (this.ActorManager.TryCreate(ActorIndex.WaveSpell, out Actor waveSpellActor))
-                            {
-                                WaveSpell waveSpell = (WaveSpell)waveSpellActor;
-
-                                waveSpell.PositionX = this.PositionX + (this.isFacingRight ? BULLET_DISTANCE : -BULLET_DISTANCE);
-                                waveSpell.PositionY = this.PositionY;
-
-                                float angle = i * (MathF.PI / (WAVE_PROJECTILES_COUNT / 2.0f));
-                                waveSpell.Direction = new(MathF.Cos(angle), MathF.Sin(angle));
-                            }
-                        }
-                    }
-
-                    break;
-
-                default:
-                    break;
+                return anyCasted;
             }
         }
 
