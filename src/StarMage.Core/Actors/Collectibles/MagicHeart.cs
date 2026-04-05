@@ -5,7 +5,6 @@ using StarMage.Core.Actors.Players;
 using StarMage.Core.Audio;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
-using StarMage.Core.Managers;
 using StarMage.Core.Tiles;
 
 using System;
@@ -34,7 +33,7 @@ namespace StarMage.Core.Actors.Collectibles
             this.time = 0.0f;
         }
 
-        internal override void OnCreated()
+        internal override void OnInstantiated()
         {
             this.originalPosition = new(this.PositionX, this.PositionY);
         }

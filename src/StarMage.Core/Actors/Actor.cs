@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using StarMage.Core.Enums;
 using StarMage.Core.Interfaces;
-using StarMage.Core.Managers;
 using StarMage.Core.Tiles;
 
 using System;
@@ -75,8 +74,8 @@ namespace StarMage.Core.Actors
         internal abstract void Draw(SpriteBatch spriteBatch);
         public abstract void Reset();
 
-        internal virtual void OnCreated() { return; }
-        internal virtual void OnDestroyed() { return; }
+        internal virtual void OnInstantiated() { return; }
+        internal virtual void OnRemoved() { return; }
 
         internal virtual void OnTileCollision(bool isHorizontalAxis) { return; }
         internal virtual void OnActorCollision(Actor otherActor) { return; }

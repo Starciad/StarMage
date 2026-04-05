@@ -8,7 +8,6 @@ using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Handlers;
 using StarMage.Core.InputSystem;
-using StarMage.Core.Managers;
 using StarMage.Core.Tiles;
 
 using System;
@@ -141,7 +140,7 @@ namespace StarMage.Core.Actors.Players
             this.currentSpriteRectangle = normalAnimationFrameRectangles[0];
         }
 
-        internal override void OnCreated()
+        internal override void OnInstantiated()
         {
             this.Health = DEFAULT_HEALTH;
         }

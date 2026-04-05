@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using StarMage.Core.Audio;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
-using StarMage.Core.Managers;
 using StarMage.Core.Tiles;
 
 namespace StarMage.Core.Actors.Collectibles
@@ -33,6 +32,16 @@ namespace StarMage.Core.Actors.Collectibles
             this.isShowingDamage = false;
         }
 
+        private void PerformDeath()
+        {
+            SoundEffectPlayer.Play(SoundEffectIndex.EnemyExploded);
+
+            if (this.ActorManager.TryCreate(ActorIndex.MagicFrame, out Actor actor))
+            {
+                actor.Position = this.Position;
+            }
+        }
+
         internal override void OnActorCollision(Actor otherActor)
         {
             if (otherActor.Type is ActorType.Projectile && otherActor.Team is ActorTeam.Good)
@@ -42,21 +51,13 @@ namespace StarMage.Core.Actors.Collectibles
 
                 if (this.health <= 0)
                 {
-                    SoundEffectPlayer.Play(SoundEffectIndex.EnemyExploded);
+                    PerformDeath();
                     this.ActorManager.Destroy(this);
                     return;
                 }
 
                 SoundEffectPlayer.Play(SoundEffectIndex.EnemyHit);
                 this.isShowingDamage = true;
-            }
-        }
-
-        internal override void OnDestroyed()
-        {
-            if (this.ActorManager.TryCreate(ActorIndex.MagicFrame, out Actor actor))
-            {
-                actor.Position = this.Position;
             }
         }
 

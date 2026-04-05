@@ -6,7 +6,6 @@ using StarMage.Core.Audio;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Extensions;
-using StarMage.Core.Managers;
 using StarMage.Core.Tiles;
 
 using System.Collections.Generic;
@@ -60,7 +59,7 @@ namespace StarMage.Core.Actors.Collectibles
             this.currentAnimationFrame = animationFrames[0];
         }
 
-        internal override void OnCreated()
+        internal override void OnInstantiated()
         {
             MagePlayer magePlayer = (MagePlayer)this.ActorManager.GetActor(ActorIndex.MagePlayer);
 

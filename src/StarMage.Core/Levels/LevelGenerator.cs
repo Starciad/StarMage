@@ -4,7 +4,6 @@ using StarMage.Core.Actors;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Handlers;
-using StarMage.Core.Managers;
 using StarMage.Core.Tiles;
 
 using System;

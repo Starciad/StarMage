@@ -7,7 +7,6 @@ using StarMage.Core.Actors.Players;
 using StarMage.Core.Actors.Projectiles;
 using StarMage.Core.Enums;
 using StarMage.Core.Interfaces;
-using StarMage.Core.Managers;
 using StarMage.Core.Tiles;
 
 namespace StarMage.Core.Databases

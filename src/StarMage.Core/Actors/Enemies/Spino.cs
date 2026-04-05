@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using StarMage.Core.Audio;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
-using StarMage.Core.Managers;
 using StarMage.Core.Tiles;
 
 namespace StarMage.Core.Actors.Enemies
@@ -78,7 +77,7 @@ namespace StarMage.Core.Actors.Enemies
             this.currentAnimationFrameIndex = 0;
         }
 
-        internal override void OnCreated()
+        internal override void OnInstantiated()
         {
             Point tilePosition = TileMap.WorldToTile(this.Position);
             this.movementDirection = Randomness.Random.GetBool() ? (sbyte)1 : (sbyte)-1;
@@ -106,6 +105,12 @@ namespace StarMage.Core.Actors.Enemies
             }
         }
 
+        private void PerformDeath()
+        {
+            ActorHelpers.CreateEnemyDeathResidues(this.ActorManager, this.Position, this.Size);
+            SoundEffectPlayer.Play(SoundEffectIndex.EnemyExploded);
+        }
+
         internal override void OnActorCollision(Actor otherActor)
         {
             if (otherActor.Type is ActorType.Projectile && otherActor.Team is ActorTeam.Good)
@@ -115,7 +120,7 @@ namespace StarMage.Core.Actors.Enemies
 
                 if (this.health <= 0)
                 {
-                    SoundEffectPlayer.Play(SoundEffectIndex.EnemyExploded);
+                    PerformDeath();
                     this.ActorManager.Destroy(this);
                     return;
                 }
@@ -123,11 +128,6 @@ namespace StarMage.Core.Actors.Enemies
                 SoundEffectPlayer.Play(SoundEffectIndex.EnemyHit);
                 this.isShowingDamage = true;
             }
-        }
-
-        internal override void OnDestroyed()
-        {
-            ActorHelpers.CreateEnemyDeathResidues(this.ActorManager, this.Position, this.Size);
         }
 
         private void UpdateDamageAnimation()

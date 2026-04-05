@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
-using StarMage.Core.Managers;
 using StarMage.Core.Tiles;
 
 using System;

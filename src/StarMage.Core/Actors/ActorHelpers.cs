@@ -2,7 +2,6 @@
 
 using StarMage.Core.Actors.Particles;
 using StarMage.Core.Enums;
-using StarMage.Core.Managers;
 
 using System;
 

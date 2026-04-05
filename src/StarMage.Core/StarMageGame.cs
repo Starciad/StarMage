@@ -10,7 +10,6 @@ using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Handlers;
 using StarMage.Core.InputSystem;
-using StarMage.Core.Managers;
 using StarMage.Core.TextSystem;
 using StarMage.Core.Tiles;
 

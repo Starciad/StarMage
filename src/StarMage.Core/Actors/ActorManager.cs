@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using StarMage.Core.Actors;
 using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Handlers;
@@ -10,7 +9,7 @@ using StarMage.Core.Tiles;
 using System;
 using System.Collections.Generic;
 
-namespace StarMage.Core.Managers
+namespace StarMage.Core.Actors
 {
     internal sealed class ActorManager
     {
@@ -74,6 +73,21 @@ namespace StarMage.Core.Managers
             return null;
         }
 
+        internal int GetActorCount(ActorIndex index)
+        {
+            int count = 0;
+
+            foreach (Actor actor in GetActors())
+            {
+                if (actor.Index == index)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
         internal bool TryCreate(ActorIndex index, out Actor actor)
         {
             actor = ActorDatabase.GetDescriptor(index).Dequeue();
@@ -108,7 +122,7 @@ namespace StarMage.Core.Managers
             {
                 this.instantiatedActors.Add(actor);
                 actor.State = ActorState.Active;
-                actor.OnCreated();
+                actor.OnInstantiated();
             }
         }
 
@@ -117,7 +131,7 @@ namespace StarMage.Core.Managers
             while (this.actorsToRemove.TryDequeue(out Actor actor))
             {
                 _ = this.instantiatedActors.Remove(actor);
-                actor.OnDestroyed();
+                actor.OnRemoved();
             }
         }
 
@@ -151,7 +165,7 @@ namespace StarMage.Core.Managers
                     if (actor.State is not ActorState.Destroyed)
                     {
                         ActorDatabase.GetDescriptor(actor.Index).Enqueue(actor);
-                        actor.OnDestroyed();
+                        actor.OnRemoved();
                     }
                 }
 

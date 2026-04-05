@@ -8,7 +8,6 @@ using StarMage.Core.Databases;
 using StarMage.Core.Enums;
 using StarMage.Core.Extensions;
 using StarMage.Core.Handlers;
-using StarMage.Core.Managers;
 using StarMage.Core.Tiles;
 
 using System;
@@ -167,6 +166,9 @@ namespace StarMage.Core.Actors.Bosses
             this.isShowingDamage = false;
             this.isLoading = false;
 
+            this.hitAnimationCounter = 0;
+            this.attackFrameCounter = 0;
+
             // Reset body part positions to the entity's position.
             this.currentHeadPositionX = this.PositionX;
             this.currentHeadPositionY = this.PositionY - 16; // Head is above the body
@@ -176,9 +178,23 @@ namespace StarMage.Core.Actors.Bosses
             this.currentHandPositionY = this.PositionY + 8; // Hand is below the body
         }
 
-        internal override void OnCreated()
+        internal override void OnInstantiated()
         {
             this.magePlayer = this.ActorManager.GetActor(ActorIndex.MagePlayer) as MagePlayer;
+        }
+
+        private void PerformDeath()
+        {
+            SoundEffectPlayer.Play(SoundEffectIndex.DarkWizardExplosion);
+
+            ActorHelpers.CreateEnemyDeathResidues(this.ActorManager, this.Position, this.Size);
+            GameHandler.BossDefeated();
+
+            if (this.ActorManager.TryCreate(ActorIndex.FinishingStar, out Actor finishingStarActor))
+            {
+                finishingStarActor.PositionX = CameraHandler.Position.X + (Constants.SCREEN_WIDTH / 2) - (finishingStarActor.Width / 2);
+                finishingStarActor.PositionY = CameraHandler.Position.Y + (Constants.SCREEN_HEIGHT / 2) - (finishingStarActor.Height / 2);
+            }
         }
 
         internal override void OnActorCollision(Actor otherActor)
@@ -190,30 +206,13 @@ namespace StarMage.Core.Actors.Bosses
 
                 if (this.health <= 0)
                 {
-                    SoundEffectPlayer.Play(SoundEffectIndex.DarkWizardExplosion);
+                    PerformDeath();
                     this.ActorManager.Destroy(this);
                     return;
                 }
 
                 SoundEffectPlayer.Play(SoundEffectIndex.EnemyHit);
                 this.isShowingDamage = true;
-            }
-        }
-
-        internal override void OnDestroyed()
-        {
-            if (this.magePlayer.IsDead)
-            {
-                return; // Don't trigger the boss defeat sequence if the player is already dead
-            }
-
-            ActorHelpers.CreateEnemyDeathResidues(this.ActorManager, this.Position, this.Size);
-            GameHandler.BossDefeated();
-
-            if (this.ActorManager.TryCreate(ActorIndex.FinishingStar, out Actor finishingStarActor))
-            {
-                finishingStarActor.PositionX = CameraHandler.Position.X + (Constants.SCREEN_WIDTH / 2) - (finishingStarActor.Width / 2);
-                finishingStarActor.PositionY = CameraHandler.Position.Y + (Constants.SCREEN_HEIGHT / 2) - (finishingStarActor.Height / 2);
             }
         }
 

@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 
+using StarMage.Core.Actors;
 using StarMage.Core.Actors.Players;
 using StarMage.Core.Audio;
 using StarMage.Core.Enums;
 using StarMage.Core.Levels;
-using StarMage.Core.Managers;
 using StarMage.Core.Tiles;
 
 using System;
