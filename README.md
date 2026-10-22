@@ -235,10 +235,10 @@ If you plan to contribute:
 
 This repository uses separate licenses for code and assets.
 
-| Scope                                  | License                                                                                   | File                |
-| -------------------------------------- | ----------------------------------------------------------------------------------------- | ------------------- |
-| [Source Code](./LICENSE)               | GNU General Public License, Version 3                                                     | `LICENSE`           |
-| [Artistic Assets](./LICENSE-ASSETS.md) | Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) | `LICENSE-ASSETS.md` |
+| Scope                               | License                                                                                   | File             |
+| ----------------------------------- | ----------------------------------------------------------------------------------------- | ---------------- |
+| [Source Code](./LICENSE)            | GNU General Public License, Version 3                                                     | `LICENSE`        |
+| [Artistic Assets](./LICENSE-ASSETS) | Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) | `LICENSE-ASSETS` |
 
 No additional scope qualifiers are declared in those files beyond the split represented by their names and repository organization. Review both license files directly before redistribution or reuse.
 
